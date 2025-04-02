@@ -23,6 +23,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabButtons = document.querySelectorAll(".tab-btn")
     const editEventBtn = document.getElementById("edit-event")
     const deleteEventBtn = document.getElementById("delete-event")
+    document.getElementById("event-form").addEventListener("submit", async function(event) {
+      event.preventDefault();
+  
+      const newEvent = {
+          title: document.getElementById("event-title").value,
+          date: document.getElementById("event-date").value,
+          time: document.getElementById("event-time").value,
+          description: document.getElementById("event-description").value,
+          color: document.getElementById("event-color").value
+      };
+  
+      try {
+          let response = await fetch("http://localhost:8080/events/add", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(newEvent)
+          });
+  
+          if (response.ok) {
+              alert("Event added successfully!");
+              location.reload();
+          } else {
+              alert("Failed to add event.");
+          }
+      } catch (error) {
+          console.error("Error:", error);
+      }
+  });
   
     // State
     let currentDate = new Date()
