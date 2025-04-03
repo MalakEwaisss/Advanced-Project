@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/events")
-@CrossOrigin(origins = "*")  // Allow frontend requests
+@CrossOrigin(origins = "*")  
 public class EventController {
 
     @Autowired
@@ -39,4 +39,9 @@ public class EventController {
     public void deleteEvent(@PathVariable Long id) {
         eventRepository.deleteById(id);
     }
+    @PutMapping("/update/{id}")
+public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
+    event.setId(id);
+    return eventRepository.save(event);
+}
 }
