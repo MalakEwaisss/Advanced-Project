@@ -1,21 +1,31 @@
-// package project.demo.models;
+package project.demo.models;
 
 // import java.util.Calendar;
 // import org.springframework.scheduling.config.Task;
-// import project.demo.IAdminActions;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 // import project.demo.repository.UserRepository;
-// // import project.demo.repository.EventRepository;
+// import project.demo.repository.EventRepository;
 // import project.demo.repository.TaskRepository;
 // import project.demo.repository.CalendarRepository;
 // import java.time.LocalDateTime;
 // import java.util.List;
 // import java.util.Optional;
 
-// public class Admin extends User implements IAdminActions {
+ public class Admin {
 //     private final UserRepository userRepository;
 //     // private final EventRepository eventRepository;
 //     private final TaskRepository taskRepository;
 //     private final CalendarRepository calendarRepository;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int adminId;
+    //private List<User> manageUsers;
+    //private List<Task> manageTasks;
+    //private List<Event> manageEvents;                  // Assuming Event is a class in your project
+   // private List<Calendar> manageCalendars;                 
 
 //     public Admin(String userId, String name, String email, String password,
 //                 UserRepository userRepository,
@@ -29,7 +39,7 @@
 //         this.calendarRepository = calendarRepository;
 //     }
 
-//     @Override
+//     
 //     public User createUser(User user) {
 //         // Validate user data
 //         if (user.getName() == null || user.getName().trim().isEmpty()) {
@@ -53,7 +63,7 @@
 //         return userRepository.save(user);
 //     }
 
-//     @Override
+//     
 //     public boolean deleteUser(String userId) {
 //         // Check if user exists
 //         if (!userRepository.existsById(userId)) {
@@ -144,4 +154,4 @@
 //         // TODO Auto-generated method stub
 //         throw new UnsupportedOperationException("Unimplemented method 'logout'");
 //     }
-// }
+}
