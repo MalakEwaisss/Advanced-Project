@@ -231,45 +231,80 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("departments", JSON.stringify(departments))
     }
   
-    function renderDepartmentTabs() {
-      departmentTabs.innerHTML = ""
-  
-      // Add "All Departments" tab
-      const allTab = document.createElement("button")
-      allTab.classList.add("department-tab")
-      if (activeDepartmentId === "all") {
-        allTab.classList.add("active")
-      }
-      allTab.textContent = "All Departments"
-      allTab.setAttribute("data-id", "all")
-      allTab.addEventListener("click", () => {
-        setActiveDepartment("all")
-      })
-      departmentTabs.appendChild(allTab)
-  
-      // Add department tabs
-      departments.forEach((dept) => {
-        const tab = document.createElement("button")
-        tab.classList.add("department-tab")
-        if (dept.id === activeDepartmentId) {
-          tab.classList.add("active")
-        }
-  
-        const colorDot = document.createElement("span")
-        colorDot.classList.add("department-color")
-        colorDot.style.backgroundColor = getColorValue(dept.color)
-  
-        tab.appendChild(colorDot)
-        tab.appendChild(document.createTextNode(dept.name))
-        tab.setAttribute("data-id", dept.id)
-  
-        tab.addEventListener("click", () => {
-          setActiveDepartment(dept.id)
-        })
-  
-        departmentTabs.appendChild(tab)
-      })
+   function renderDepartmentTabs() {
+    departmentTabs.innerHTML = "";
+
+    // Add "All Departments" tab
+    const allTab = document.createElement("button");
+    allTab.classList.add("department-tab");
+    if (activeDepartmentId === "all") {
+        allTab.classList.add("active");
     }
+    allTab.textContent = "All Departments";
+    allTab.setAttribute("data-id", "all");
+    allTab.addEventListener("click", () => {
+        setActiveDepartment("all");
+    });
+    departmentTabs.appendChild(allTab);
+
+    // Add department tabs
+    departments.forEach((dept, index) => {
+        const tab = document.createElement("button");
+        tab.classList.add("department-tab");
+        if (dept.id === activeDepartmentId) {
+            tab.classList.add("active");
+        }
+
+        const colorDot = document.createElement("span");
+        colorDot.classList.add("department-color");
+        colorDot.style.backgroundColor = getColorValue(dept.color);
+
+        // Department Name
+        const deptName = document.createElement("span");
+        deptName.classList.add("department-name");
+        deptName.textContent = dept.name;
+
+        // Delete Button (Trash Icon)
+        const deleteBtn = document.createElement("i");
+        deleteBtn.classList.add("department-delete", "fas", "fa-trash-alt");
+        deleteBtn.title = "Remove department";
+        deleteBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent switching department when clicking delete
+            deleteDepartment(dept.id); // Call delete function
+        });
+
+        // Create a container for the name and delete button
+        const contentContainer = document.createElement("span");
+        contentContainer.classList.add("department-content");
+        contentContainer.appendChild(deptName);
+        contentContainer.appendChild(deleteBtn);
+
+        tab.appendChild(colorDot);
+        tab.appendChild(contentContainer);
+
+        tab.setAttribute("data-id", dept.id);
+        tab.addEventListener("click", () => {
+            setActiveDepartment(dept.id);
+        });
+
+        departmentTabs.appendChild(tab);
+    });
+}
+
+// Function to delete a department
+function deleteDepartment(departmentId) {
+    // Remove from the departments array
+    departments = departments.filter(dept => dept.id !== departmentId);
+    
+    // Re-render the department tabs
+    renderDepartmentTabs();
+
+    // Optionally, remove associated events if needed
+    // events = events.filter(event => event.departmentId !== departmentId);
+    // renderEvents();
+}
+
+    
   
     function setActiveDepartment(departmentId) {
       activeDepartmentId = departmentId
@@ -1036,6 +1071,1126 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       return priorityMap[priority] || "Medium Priority"
     }
+    document.addEventListener("DOMContentLoaded", () => {
+        // DOM Elements
+        const calendarDays = document.getElementById("calendar-days")
+        const miniCalendarDays = document.getElementById("mini-calendar-days")
+        const currentMonthYear = document.getElementById("current-month-year")
+        const miniMonthYear = document.getElementById("mini-month-year")
+        const prevMonthBtn = document.getElementById("prev-month-btn")
+        const nextMonthBtn = document.getElementById("next-month-btn")
+        const miniPrevMonthBtn = document.getElementById("mini-prev-month")
+        const miniNextMonthBtn = document.getElementById("mini-next-month")
+        const todayBtn = document.getElementById("today-btn")
+        const newEventBtn = document.getElementById("new-event-btn")
+        const addTaskBtn = document.getElementById("add-task-btn")
+        const addDepartmentBtn = document.getElementById("add-department-btn")
+        const sortDepartmentsBtn = document.getElementById("sort-departments-btn")
+        const eventModal = document.getElementById("event-modal")
+        const taskModal = document.getElementById("task-modal")
+        const eventDetailsModal = document.getElementById("event-details-modal")
+        const departmentModal = document.getElementById("department-modal")
+        const closeModalBtn = document.querySelector(".close-modal")
+        const closeDetailsModalBtn = document.getElementById("close-details-modal")
+        const closeDepartmentModalBtn = document.getElementById("close-department-modal")
+        const closeTaskModalBtn = document.getElementById("close-task-modal")
+        const cancelEventBtn = document.getElementById("cancel-event")
+        const cancelTaskBtn = document.getElementById("cancel-task")
+        const cancelDepartmentBtn = document.getElementById("cancel-department")
+        const eventForm = document.getElementById("event-form")
+        const taskForm = document.getElementById("task-form")
+        const departmentForm = document.getElementById("department-form")
+        const eventsList = document.getElementById("events-list")
+        const eventDateInput = document.getElementById("event-date")
+        const taskDateInput = document.getElementById("task-date")
+        const eventDepartmentSelect = document.getElementById("event-department")
+        const taskDepartmentSelect = document.getElementById("task-department")
+        const departmentTabs = document.getElementById("department-tabs")
+        const colorOptions = document.querySelectorAll(".color-option")
+        const eventColorInput = document.getElementById("event-color")
+        const departmentColorInput = document.getElementById("department-color")
+        const tabButtons = document.querySelectorAll(".tab-btn")
+        const editEventBtn = document.getElementById("edit-event")
+        const deleteEventBtn = document.getElementById("delete-event")
+        const confirmModal = document.getElementById("confirm-modal")
+        const closeConfirmModalBtn = document.getElementById("close-confirm-modal")
+        const cancelConfirmBtn = document.getElementById("cancel-confirm")
+        const confirmDeleteBtn = document.getElementById("confirm-delete")
+        const confirmMessage = document.getElementById("confirm-message")
+      
+        // State
+        let currentDate = new Date()
+        let selectedDate = new Date()
+        let events = []
+        let departments = []
+        let selectedColor = "blue"
+        let currentEventId = null
+        let activeDepartmentId = "all" // "all" means show all departments
+        let departmentToDelete = null
+      
+        // Initialize
+        initCalendar()
+      
+        function initCalendar() {
+          // Load departments and events from localStorage or create defaults
+          loadDepartments()
+          loadEvents()
+      
+          renderCalendar(currentDate)
+          renderMiniCalendar(currentDate)
+          renderDepartmentTabs()
+          updateEventsList()
+          populateDepartmentSelect()
+      
+          // Event Listeners
+          prevMonthBtn.addEventListener("click", () => {
+            currentDate.setMonth(currentDate.getMonth() - 1)
+            renderCalendar(currentDate)
+            renderMiniCalendar(currentDate)
+          })
+      
+          nextMonthBtn.addEventListener("click", () => {
+            currentDate.setMonth(currentDate.getMonth() + 1)
+            renderCalendar(currentDate)
+            renderMiniCalendar(currentDate)
+          })
+      
+          miniPrevMonthBtn.addEventListener("click", () => {
+            currentDate.setMonth(currentDate.getMonth() - 1)
+            renderCalendar(currentDate)
+            renderMiniCalendar(currentDate)
+          })
+      
+          miniNextMonthBtn.addEventListener("click", () => {
+            currentDate.setMonth(currentDate.getMonth() + 1)
+            renderCalendar(currentDate)
+            renderMiniCalendar(currentDate)
+          })
+      
+          todayBtn.addEventListener("click", () => {
+            currentDate = new Date()
+            selectedDate = new Date()
+            renderCalendar(currentDate)
+            renderMiniCalendar(currentDate)
+            updateEventsList()
+          })
+      
+          newEventBtn.addEventListener("click", () => {
+            openEventModal()
+          })
+      
+          addTaskBtn.addEventListener("click", () => {
+            openTaskModal()
+          })
+      
+          addDepartmentBtn.addEventListener("click", () => {
+            openDepartmentModal()
+          })
+      
+          sortDepartmentsBtn.addEventListener("click", () => {
+            sortDepartments()
+          })
+      
+          closeModalBtn.addEventListener("click", () => {
+            closeEventModal()
+          })
+      
+          closeDetailsModalBtn.addEventListener("click", () => {
+            closeEventDetailsModal()
+          })
+      
+          closeDepartmentModalBtn.addEventListener("click", () => {
+            closeDepartmentModal()
+          })
+      
+          closeTaskModalBtn.addEventListener("click", () => {
+            closeTaskModal()
+          })
+      
+          cancelEventBtn.addEventListener("click", () => {
+            closeEventModal()
+          })
+      
+          cancelTaskBtn.addEventListener("click", () => {
+            closeTaskModal()
+          })
+      
+          cancelDepartmentBtn.addEventListener("click", () => {
+            closeDepartmentModal()
+          })
+      
+          eventForm.addEventListener("submit", (e) => {
+            e.preventDefault()
+            saveEvent()
+          })
+      
+          taskForm.addEventListener("submit", (e) => {
+            e.preventDefault()
+            saveTask()
+          })
+      
+          departmentForm.addEventListener("submit", (e) => {
+            e.preventDefault()
+            saveDepartment()
+          })
+      
+          // Color options for event modal
+          document.querySelectorAll("#event-modal .color-option").forEach((option) => {
+            option.addEventListener("click", () => {
+              document.querySelectorAll("#event-modal .color-option").forEach((opt) => opt.classList.remove("selected"))
+              option.classList.add("selected")
+              selectedColor = option.getAttribute("data-color")
+              eventColorInput.value = selectedColor
+            })
+          })
+      
+          // Color options for department modal
+          document.querySelectorAll("#department-modal .color-option").forEach((option) => {
+            option.addEventListener("click", () => {
+              document.querySelectorAll("#department-modal .color-option").forEach((opt) => opt.classList.remove("selected"))
+              option.classList.add("selected")
+              selectedColor = option.getAttribute("data-color")
+              departmentColorInput.value = selectedColor
+            })
+          })
+      
+          tabButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              tabButtons.forEach((btn) => btn.classList.remove("active"))
+              button.classList.add("active")
+              const tabType = button.getAttribute("data-tab")
+              if (tabType === "upcoming") {
+                document.querySelector(".events-content h3").textContent = "Upcoming Events"
+                document.querySelector(".events-subtitle").textContent = "Your schedule for the next few days"
+              } else {
+                document.querySelector(".events-content h3").textContent = "Tasks"
+                document.querySelector(".events-subtitle").textContent = "Your pending tasks"
+              }
+              updateEventsList()
+            })
+          })
+      
+          editEventBtn.addEventListener("click", () => {
+            const event = events.find((e) => e.id === currentEventId)
+            if (event) {
+              closeEventDetailsModal()
+              if (event.type === "task") {
+                openTaskModal(event)
+              } else {
+                openEventModal(event)
+              }
+            }
+          })
+      
+          deleteEventBtn.addEventListener("click", () => {
+            if (currentEventId) {
+              deleteEvent(currentEventId)
+              closeEventDetailsModal()
+            }
+          })
+      
+          closeConfirmModalBtn.addEventListener("click", () => {
+            closeConfirmModal()
+          })
+      
+          cancelConfirmBtn.addEventListener("click", () => {
+            closeConfirmModal()
+          })
+      
+          confirmDeleteBtn.addEventListener("click", () => {
+            if (departmentToDelete) {
+              deleteDepartment(departmentToDelete)
+              departmentToDelete = null
+            }
+            closeConfirmModal()
+          })
+        }
+      
+        // Department Functions
+        function loadDepartments() {
+          const storedDepartments = localStorage.getItem("departments")
+          if (storedDepartments) {
+            departments = JSON.parse(storedDepartments)
+          } else {
+            // Create default departments if none exist
+            departments = [
+              { id: "dept1", name: "Marketing", color: "blue" },
+              { id: "dept2", name: "Engineering", color: "green" },
+              { id: "dept3", name: "HR", color: "purple" },
+            ]
+            saveDepartmentsToStorage()
+          }
+        }
+      
+        function saveDepartmentsToStorage() {
+          localStorage.setItem("departments", JSON.stringify(departments))
+        }
+      
+        // In the renderDepartmentTabs function, modify the department tab creation to include a delete button
+        function renderDepartmentTabs() {
+          departmentTabs.innerHTML = ""
+      
+          // Add "All Departments" tab
+          const allTab = document.createElement("button")
+          allTab.classList.add("department-tab")
+          if (activeDepartmentId === "all") {
+            allTab.classList.add("active")
+          }
+          allTab.textContent = "All Departments"
+          allTab.setAttribute("data-id", "all")
+          allTab.addEventListener("click", () => {
+            setActiveDepartment("all")
+          })
+          departmentTabs.appendChild(allTab)
+      
+          // Add department tabs
+          departments.forEach((dept) => {
+            const tab = document.createElement("button")
+            tab.classList.add("department-tab")
+            if (dept.id === activeDepartmentId) {
+              tab.classList.add("active")
+            }
+      
+            const colorDot = document.createElement("span")
+            colorDot.classList.add("department-color")
+            colorDot.style.backgroundColor = getColorValue(dept.color)
+      
+            tab.appendChild(colorDot)
+      
+            // Create a container for the department name and delete button
+            const contentContainer = document.createElement("span")
+            contentContainer.classList.add("department-content")
+            contentContainer.appendChild(document.createTextNode(dept.name))
+      
+            // Create delete button
+            const deleteBtn = document.createElement("span")
+            deleteBtn.classList.add("department-delete")
+            deleteBtn.innerHTML = "×"
+            deleteBtn.title = "Remove department"
+            deleteBtn.addEventListener("click", (e) => {
+              e.stopPropagation() // Prevent tab selection when clicking delete
+              confirmDeleteDepartment(dept.id)
+            })
+      
+            contentContainer.appendChild(deleteBtn)
+            tab.appendChild(contentContainer)
+      
+            tab.setAttribute("data-id", dept.id)
+      
+            tab.addEventListener("click", () => {
+              setActiveDepartment(dept.id)
+            })
+      
+            departmentTabs.appendChild(tab)
+          })
+        }
+      
+        // Add a function to confirm department deletion
+        function confirmDeleteDepartment(departmentId) {
+          const department = departments.find((dept) => dept.id === departmentId)
+          if (!department) return
+      
+          departmentToDelete = departmentId
+          confirmMessage.textContent = `Are you sure you want to remove "${department.name}" department and all its events?`
+          confirmModal.classList.add("active")
+        }
+      
+        // Add a function to delete a department and its events
+        function deleteDepartment(departmentId) {
+          // If the active department is being deleted, switch to "all"
+          if (activeDepartmentId === departmentId) {
+            activeDepartmentId = "all"
+          }
+      
+          // Remove the department from the departments array
+          departments = departments.filter((dept) => dept.id !== departmentId)
+          saveDepartmentsToStorage()
+      
+          // Remove all events associated with this department
+          events = events.filter((event) => event.departmentId !== departmentId)
+          saveEventsToStorage()
+      
+          // Update UI
+          renderDepartmentTabs()
+          populateDepartmentSelect()
+          renderCalendar(currentDate)
+          renderMiniCalendar(currentDate)
+          updateEventsList()
+        }
+      
+        function setActiveDepartment(departmentId) {
+          activeDepartmentId = departmentId
+          renderDepartmentTabs()
+          renderCalendar(currentDate)
+          updateEventsList()
+        }
+      
+        function populateDepartmentSelect() {
+          eventDepartmentSelect.innerHTML = ""
+          taskDepartmentSelect.innerHTML = ""
+      
+          departments.forEach((dept) => {
+            const option = document.createElement("option")
+            option.value = dept.id
+            option.textContent = dept.name
+            eventDepartmentSelect.appendChild(option.cloneNode(true))
+      
+            const taskOption = document.createElement("option")
+            taskOption.value = dept.id
+            taskOption.textContent = dept.name
+            taskDepartmentSelect.appendChild(taskOption)
+          })
+        }
+      
+        function openDepartmentModal() {
+          departmentModal.classList.add("active")
+          document.getElementById("department-name").value = ""
+          document.getElementById("department-color").value = "blue"
+      
+          document.querySelectorAll("#department-modal .color-option").forEach((option) => {
+            option.classList.remove("selected")
+            if (option.getAttribute("data-color") === "blue") {
+              option.classList.add("selected")
+            }
+          })
+        }
+      
+        function closeDepartmentModal() {
+          departmentModal.classList.remove("active")
+        }
+      
+        function saveDepartment() {
+          const departmentName = document.getElementById("department-name").value
+          const departmentColor = document.getElementById("department-color").value
+      
+          if (!departmentName) return
+      
+          const newDepartment = {
+            id: "dept" + Date.now(),
+            name: departmentName,
+            color: departmentColor,
+          }
+      
+          departments.push(newDepartment)
+          saveDepartmentsToStorage()
+          renderDepartmentTabs()
+          populateDepartmentSelect()
+          closeDepartmentModal()
+        }
+      
+        function sortDepartments() {
+          departments.sort((a, b) => a.name.localeCompare(b.name))
+          saveDepartmentsToStorage()
+          renderDepartmentTabs()
+        }
+      
+        // Event Functions
+        function loadEvents() {
+          const storedEvents = localStorage.getItem("events")
+          if (storedEvents) {
+            events = JSON.parse(storedEvents)
+          } else {
+            // Create sample events if none exist
+            const today = new Date()
+            const tomorrow = new Date(today)
+            tomorrow.setDate(tomorrow.getDate() + 1)
+      
+            events = [
+              {
+                id: "event1",
+                title: "Marketing Meeting",
+                date: formatDateForInput(today),
+                time: "10:00",
+                description: "Weekly marketing team sync",
+                color: "blue",
+                departmentId: "dept1",
+                type: "event",
+              },
+              {
+                id: "event2",
+                title: "Code Review",
+                date: formatDateForInput(today),
+                time: "14:00",
+                description: "Review pull requests",
+                color: "green",
+                departmentId: "dept2",
+                type: "event",
+              },
+              {
+                id: "task1",
+                title: "Update Documentation",
+                date: formatDateForInput(tomorrow),
+                time: "09:00",
+                description: "Update API documentation",
+                priority: "medium",
+                departmentId: "dept2",
+                type: "task",
+              },
+            ]
+            saveEventsToStorage()
+          }
+        }
+      
+        function saveEventsToStorage() {
+          localStorage.setItem("events", JSON.stringify(events))
+        }
+      
+        function saveEvent() {
+          const eventTitle = document.getElementById("event-title").value
+          const eventDate = document.getElementById("event-date").value
+          const eventTime = document.getElementById("event-time").value
+          const eventDescription = document.getElementById("event-description").value
+          const eventColor = document.getElementById("event-color").value
+          const departmentId = document.getElementById("event-department").value
+      
+          if (!eventTitle || !eventDate || !eventTime || !departmentId) return
+      
+          if (currentEventId) {
+            // Update existing event
+            const eventIndex = events.findIndex((e) => e.id === currentEventId)
+            if (eventIndex !== -1) {
+              events[eventIndex] = {
+                ...events[eventIndex],
+                title: eventTitle,
+                date: eventDate,
+                time: eventTime,
+                description: eventDescription,
+                color: eventColor,
+                departmentId: departmentId,
+                type: "event",
+              }
+            }
+          } else {
+            // Create new event
+            const newEvent = {
+              id: "event" + Date.now(),
+              title: eventTitle,
+              date: eventDate,
+              time: eventTime,
+              description: eventDescription,
+              color: eventColor,
+              departmentId: departmentId,
+              type: "event",
+            }
+            events.push(newEvent)
+          }
+      
+          saveEventsToStorage()
+          renderCalendar(currentDate)
+          renderMiniCalendar(currentDate)
+          updateEventsList()
+          closeEventModal()
+        }
+      
+        function saveTask() {
+          const taskTitle = document.getElementById("task-title").value
+          const taskDate = document.getElementById("task-date").value
+          const taskPriority = document.getElementById("task-priority").value
+          const taskDescription = document.getElementById("task-description").value
+          const departmentId = document.getElementById("task-department").value
+      
+          if (!taskTitle || !taskDate || !departmentId) return
+      
+          if (currentEventId) {
+            // Update existing task
+            const eventIndex = events.findIndex((e) => e.id === currentEventId)
+            if (eventIndex !== -1) {
+              events[eventIndex] = {
+                ...events[eventIndex],
+                title: taskTitle,
+                date: taskDate,
+                time: "09:00", // Default time for tasks
+                description: taskDescription,
+                priority: taskPriority,
+                departmentId: departmentId,
+                type: "task",
+              }
+            }
+          } else {
+            // Create new task
+            const newTask = {
+              id: "task" + Date.now(),
+              title: taskTitle,
+              date: taskDate,
+              time: "09:00", // Default time for tasks
+              description: taskDescription,
+              priority: taskPriority,
+              departmentId: departmentId,
+              type: "task",
+            }
+            events.push(newTask)
+          }
+      
+          saveEventsToStorage()
+          renderCalendar(currentDate)
+          renderMiniCalendar(currentDate)
+          updateEventsList()
+          closeTaskModal()
+        }
+      
+        function deleteEvent(eventId) {
+          events = events.filter((event) => event.id !== eventId)
+          saveEventsToStorage()
+          renderCalendar(currentDate)
+          renderMiniCalendar(currentDate)
+          updateEventsList()
+        }
+      
+        // Calendar Rendering Functions
+        function renderCalendar(date) {
+          const year = date.getFullYear()
+          const month = date.getMonth()
+      
+          // Update header
+          currentMonthYear.textContent = `${getMonthName(month)} ${year}`
+      
+          // Clear previous days
+          calendarDays.innerHTML = ""
+      
+          // Get first day of month and last day of month
+          const firstDay = new Date(year, month, 1)
+          const lastDay = new Date(year, month + 1, 0)
+      
+          // Get days from previous month
+          const firstDayIndex = firstDay.getDay()
+          const prevMonthLastDay = new Date(year, month, 0).getDate()
+      
+          // Get days in current month
+          const daysInMonth = lastDay.getDate()
+      
+          // Get days from next month
+          const lastDayIndex = lastDay.getDay()
+          const nextDays = 6 - lastDayIndex
+      
+          // Previous month days
+          for (let i = firstDayIndex - 1; i >= 0; i--) {
+            const day = prevMonthLastDay - i
+            const dayDate = new Date(year, month - 1, day)
+            addDayToCalendar(dayDate, true)
+          }
+      
+          // Current month days
+          for (let i = 1; i <= daysInMonth; i++) {
+            const dayDate = new Date(year, month, i)
+            addDayToCalendar(dayDate)
+          }
+      
+          // Next month days
+          for (let i = 1; i <= nextDays; i++) {
+            const dayDate = new Date(year, month + 1, i)
+            addDayToCalendar(dayDate, true)
+          }
+        }
+      
+        function renderMiniCalendar(date) {
+          const year = date.getFullYear()
+          const month = date.getMonth()
+      
+          // Update header
+          miniMonthYear.textContent = `${getMonthName(month)} ${year}`
+      
+          // Clear previous days
+          miniCalendarDays.innerHTML = ""
+      
+          // Get first day of month and last day of month
+          const firstDay = new Date(year, month, 1)
+          const lastDay = new Date(year, month + 1, 0)
+      
+          // Get days from previous month
+          const firstDayIndex = firstDay.getDay()
+          const prevMonthLastDay = new Date(year, month, 0).getDate()
+      
+          // Get days in current month
+          const daysInMonth = lastDay.getDate()
+      
+          // Get days from next month
+          const lastDayIndex = lastDay.getDay()
+          const nextDays = 6 - lastDayIndex
+      
+          // Previous month days
+          for (let i = firstDayIndex - 1; i >= 0; i--) {
+            const day = prevMonthLastDay - i
+            const dayDate = new Date(year, month - 1, day)
+            addDayToMiniCalendar(dayDate, true)
+          }
+      
+          // Current month days
+          for (let i = 1; i <= daysInMonth; i++) {
+            const dayDate = new Date(year, month, i)
+            addDayToMiniCalendar(dayDate)
+          }
+      
+          // Next month days
+          for (let i = 1; i <= nextDays; i++) {
+            const dayDate = new Date(year, month + 1, i)
+            addDayToMiniCalendar(dayDate, true)
+          }
+        }
+      
+        function addDayToCalendar(date, isOtherMonth = false) {
+          const day = document.createElement("div")
+          day.classList.add("day")
+      
+          if (isOtherMonth) {
+            day.classList.add("other-month")
+          }
+      
+          // Check if day is today
+          const today = new Date()
+          if (
+            date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
+          ) {
+            day.classList.add("today")
+          }
+      
+          // Check if day is selected
+          if (
+            date.getDate() === selectedDate.getDate() &&
+            date.getMonth() === selectedDate.getMonth() &&
+            date.getFullYear() === selectedDate.getFullYear()
+          ) {
+            day.classList.add("selected")
+          }
+      
+          // Add day number
+          const dayNumber = document.createElement("div")
+          dayNumber.classList.add("day-number")
+          dayNumber.textContent = date.getDate()
+          day.appendChild(dayNumber)
+      
+          // Add events for this day
+          const formattedDate = formatDateForInput(date)
+          let dayEvents = events.filter((event) => event.date === formattedDate)
+      
+          // Filter by department if a specific department is selected
+          if (activeDepartmentId !== "all") {
+            dayEvents = dayEvents.filter((event) => event.departmentId === activeDepartmentId)
+          }
+      
+          dayEvents.forEach((event) => {
+            const eventElement = document.createElement("div")
+      
+            if (event.type === "task") {
+              eventElement.classList.add("event", "task", event.priority)
+            } else {
+              eventElement.classList.add("event", event.color)
+            }
+      
+            // Get department name
+            const department = departments.find((d) => d.id === event.departmentId)
+            const departmentName = department ? department.name : "Unknown"
+      
+            eventElement.textContent = event.title
+      
+            if (event.type === "task") {
+              eventElement.title = `[Task] ${event.title} (${departmentName}) - ${getPriorityText(event.priority)}`
+            } else {
+              eventElement.title = `${event.title} (${departmentName}) - ${formatTime(event.time)}`
+            }
+      
+            day.appendChild(eventElement)
+      
+            eventElement.addEventListener("click", (e) => {
+              e.stopPropagation()
+              openEventDetailsModal(event)
+            })
+          })
+      
+          // Add click event
+          day.addEventListener("click", () => {
+            document.querySelectorAll(".day").forEach((d) => d.classList.remove("selected"))
+            document.querySelectorAll(".mini-day").forEach((d) => d.classList.remove("selected"))
+            day.classList.add("selected")
+      
+            selectedDate = new Date(date)
+            updateEventsList()
+      
+            // Update mini calendar
+            renderMiniCalendar(currentDate)
+          })
+      
+          calendarDays.appendChild(day)
+        }
+      
+        function addDayToMiniCalendar(date, isOtherMonth = false) {
+          const day = document.createElement("div")
+          day.classList.add("mini-day")
+          day.textContent = date.getDate()
+      
+          if (isOtherMonth) {
+            day.classList.add("other-month")
+          }
+      
+          // Check if day is today
+          const today = new Date()
+          if (
+            date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
+          ) {
+            day.classList.add("today")
+          }
+      
+          // Check if day is selected
+          if (
+            date.getDate() === selectedDate.getDate() &&
+            date.getMonth() === selectedDate.getMonth() &&
+            date.getFullYear() === selectedDate.getFullYear()
+          ) {
+            day.classList.add("selected")
+          }
+      
+          // Check if day has events
+          const formattedDate = formatDateForInput(date)
+          let hasEvents = false
+      
+          if (activeDepartmentId === "all") {
+            hasEvents = events.some((event) => event.date === formattedDate)
+          } else {
+            hasEvents = events.some((event) => event.date === formattedDate && event.departmentId === activeDepartmentId)
+          }
+      
+          if (hasEvents) {
+            day.classList.add("has-events")
+          }
+      
+          // Add click event
+          day.addEventListener("click", () => {
+            document.querySelectorAll(".day").forEach((d) => d.classList.remove("selected"))
+            document.querySelectorAll(".mini-day").forEach((d) => d.classList.remove("selected"))
+            day.classList.add("selected")
+      
+            selectedDate = new Date(date)
+            currentDate = new Date(date.getFullYear(), date.getMonth(), 1)
+      
+            renderCalendar(currentDate)
+            updateEventsList()
+          })
+      
+          miniCalendarDays.appendChild(day)
+        }
+      
+        function updateEventsList() {
+          eventsList.innerHTML = ""
+      
+          const activeTab = document.querySelector(".tab-btn.active").getAttribute("data-tab")
+          const formattedSelectedDate = formatDateForInput(selectedDate)
+      
+          let filteredEvents = []
+          if (activeTab === "upcoming") {
+            // Get events for the selected date
+            filteredEvents = events.filter((event) => event.date === formattedSelectedDate)
+      
+            // Filter by department if a specific department is selected
+            if (activeDepartmentId !== "all") {
+              filteredEvents = filteredEvents.filter((event) => event.departmentId === activeDepartmentId)
+            }
+          } else {
+            // Get tasks only
+            filteredEvents = events.filter((event) => event.type === "task")
+      
+            // Filter by department if a specific department is selected
+            if (activeDepartmentId !== "all") {
+              filteredEvents = filteredEvents.filter((event) => event.departmentId === activeDepartmentId)
+            }
+          }
+      
+          if (filteredEvents.length === 0) {
+            const noEvents = document.createElement("p")
+            noEvents.textContent = activeTab === "upcoming" ? "No events scheduled for this day" : "No tasks found"
+            noEvents.style.color = "var(--text-secondary)"
+            noEvents.style.textAlign = "center"
+            noEvents.style.padding = "1rem 0"
+            eventsList.appendChild(noEvents)
+            return
+          }
+      
+          // Sort events by time or priority
+          filteredEvents.sort((a, b) => {
+            if (a.date !== b.date) {
+              return a.date.localeCompare(b.date)
+            }
+            if (a.type === "task" && b.type === "task") {
+              // Sort tasks by priority (high, medium, low)
+              const priorityOrder = { high: 0, medium: 1, low: 2 }
+              return priorityOrder[a.priority] - priorityOrder[b.priority]
+            }
+            return a.time.localeCompare(b.time)
+          })
+      
+          filteredEvents.forEach((event) => {
+            const eventItem = document.createElement("div")
+      
+            if (event.type === "task") {
+              eventItem.classList.add("event-item", "task", event.priority)
+            } else {
+              eventItem.classList.add("event-item")
+            }
+      
+            const eventItemHeader = document.createElement("div")
+            eventItemHeader.classList.add("event-item-header")
+      
+            const eventDate = document.createElement("div")
+            eventDate.classList.add("event-date")
+            eventDate.textContent = formatDate(new Date(event.date))
+      
+            eventItemHeader.appendChild(eventDate)
+            eventItem.appendChild(eventItemHeader)
+      
+            const eventTitle = document.createElement("div")
+            eventTitle.classList.add("event-title")
+      
+            const eventBadge = document.createElement("span")
+            eventBadge.classList.add("event-badge")
+      
+            if (event.type === "task") {
+              const priorityColors = {
+                low: "var(--priority-low)",
+                medium: "var(--priority-medium)",
+                high: "var(--priority-high)",
+              }
+              eventBadge.style.backgroundColor = priorityColors[event.priority]
+            } else {
+              eventBadge.style.backgroundColor = getColorValue(event.color)
+            }
+      
+            eventTitle.appendChild(eventBadge)
+            eventTitle.appendChild(document.createTextNode(event.title))
+            eventItem.appendChild(eventTitle)
+      
+            // Add event type
+            const eventType = document.createElement("div")
+            eventType.classList.add("event-type")
+            eventType.textContent = event.type === "task" ? "Task" : "Event"
+            eventItem.appendChild(eventType)
+      
+            if (event.type === "task") {
+              // Add priority for tasks
+              const eventPriority = document.createElement("div")
+              eventPriority.classList.add("event-priority", event.priority)
+              eventPriority.textContent = getPriorityText(event.priority)
+              eventItem.appendChild(eventPriority)
+            } else {
+              // Add time for events
+              const eventTime = document.createElement("div")
+              eventTime.classList.add("event-time")
+              eventTime.textContent = formatTime(event.time)
+              eventItem.appendChild(eventTime)
+            }
+      
+            // Add department info
+            const department = departments.find((d) => d.id === event.departmentId)
+            if (department) {
+              const eventDepartment = document.createElement("div")
+              eventDepartment.classList.add("event-department")
+              eventDepartment.textContent = `Department: ${department.name}`
+              eventItem.appendChild(eventDepartment)
+            }
+      
+            eventItem.addEventListener("click", () => {
+              openEventDetailsModal(event)
+            })
+      
+            eventsList.appendChild(eventItem)
+          })
+        }
+      
+        function openEventModal(event = null) {
+          eventModal.classList.add("active")
+      
+          if (event) {
+            // Edit mode
+            document.querySelector("#event-modal .modal-header h3").textContent = "Edit Event"
+            document.getElementById("event-title").value = event.title
+            document.getElementById("event-date").value = event.date
+            document.getElementById("event-time").value = event.time
+            document.getElementById("event-description").value = event.description || ""
+            document.getElementById("event-department").value = event.departmentId
+            document.getElementById("event-color").value = event.color
+      
+            document.querySelectorAll("#event-modal .color-option").forEach((option) => {
+              option.classList.remove("selected")
+              if (option.getAttribute("data-color") === event.color) {
+                option.classList.add("selected")
+              }
+            })
+      
+            currentEventId = event.id
+          } else {
+            // Add mode
+            document.querySelector("#event-modal .modal-header h3").textContent = "Add New Event"
+            eventForm.reset()
+            currentEventId = null
+      
+            // Set default date to selected date
+            eventDateInput.value = formatDateForInput(selectedDate)
+      
+            // Set default color
+            document.querySelectorAll("#event-modal .color-option").forEach((option) => {
+              option.classList.remove("selected")
+              if (option.getAttribute("data-color") === "blue") {
+                option.classList.add("selected")
+              }
+            })
+            eventColorInput.value = "blue"
+      
+            // Set first department as default if available
+            if (departments.length > 0 && eventDepartmentSelect.options.length > 0) {
+              eventDepartmentSelect.value = eventDepartmentSelect.options[0].value
+            }
+          }
+        }
+      
+        function openTaskModal(task = null) {
+          taskModal.classList.add("active")
+      
+          if (task) {
+            // Edit mode
+            document.querySelector("#task-modal .modal-header h3").textContent = "Edit Task"
+            document.getElementById("task-title").value = task.title
+            document.getElementById("task-date").value = task.date
+            document.getElementById("task-priority").value = task.priority
+            document.getElementById("task-description").value = task.description || ""
+            document.getElementById("task-department").value = task.departmentId
+      
+            currentEventId = task.id
+          } else {
+            // Add mode
+            document.querySelector("#task-modal .modal-header h3").textContent = "Add New Task"
+            taskForm.reset()
+            currentEventId = null
+      
+            // Set default date to selected date
+            taskDateInput.value = formatDateForInput(selectedDate)
+      
+            // Set medium priority as default
+            document.getElementById("task-priority").value = "medium"
+      
+            // Set first department as default if available
+            if (departments.length > 0 && taskDepartmentSelect.options.length > 0) {
+              taskDepartmentSelect.value = taskDepartmentSelect.options[0].value
+            }
+      
+            // If a specific department is active, set it as the default
+            if (activeDepartmentId !== "all") {
+              taskDepartmentSelect.value = activeDepartmentId
+            }
+          }
+        }
+      
+        function closeEventModal() {
+          eventModal.classList.remove("active")
+          eventForm.reset()
+          currentEventId = null
+        }
+      
+        function closeTaskModal() {
+          taskModal.classList.remove("active")
+          taskForm.reset()
+          currentEventId = null
+        }
+      
+        function openEventDetailsModal(event) {
+          eventDetailsModal.classList.add("active")
+      
+          const department = departments.find((d) => d.id === event.departmentId)
+          const departmentName = department ? department.name : "Unknown Department"
+      
+          document.getElementById("detail-event-title").textContent = event.title
+          document.getElementById("detail-event-date").textContent = formatDate(new Date(event.date))
+          document.getElementById("detail-event-department").textContent = departmentName
+          document.getElementById("detail-event-description").textContent = event.description || "No description provided"
+      
+          // Show/hide elements based on event type
+          if (event.type === "task") {
+            document.getElementById("detail-event-time").parentElement.style.display = "none"
+            document.getElementById("detail-event-type").textContent = "Task"
+            document.getElementById("detail-task-priority-container").style.display = "flex"
+            document.getElementById("detail-task-priority").textContent = getPriorityText(event.priority)
+            document.getElementById("detail-task-priority").className = event.priority
+          } else {
+            document.getElementById("detail-event-time").parentElement.style.display = "flex"
+            document.getElementById("detail-event-time").textContent = formatTime(event.time)
+            document.getElementById("detail-event-type").textContent = "Event"
+            document.getElementById("detail-task-priority-container").style.display = "none"
+          }
+      
+          currentEventId = event.id
+        }
+      
+        function closeEventDetailsModal() {
+          eventDetailsModal.classList.remove("active")
+          currentEventId = null
+        }
+      
+        // Helper Functions
+        function getMonthName(month) {
+          const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ]
+          return months[month]
+        }
+      
+        function formatDate(date) {
+          const options = { weekday: "long", month: "long", day: "numeric" }
+          return date.toLocaleDateString("en-US", options)
+        }
+      
+        function formatDateForInput(date) {
+          const year = date.getFullYear()
+          const month = String(date.getMonth() + 1).padStart(2, "0")
+          const day = String(date.getDate()).padStart(2, "0")
+          return `${year}-${month}-${day}`
+        }
+      
+        function formatTime(timeString) {
+          const [hours, minutes] = timeString.split(":")
+          const hour = Number.parseInt(hours)
+          const ampm = hour >= 12 ? "PM" : "AM"
+          const hour12 = hour % 12 || 12
+          return `${hour12}:${minutes} ${ampm}`
+        }
+      
+        function getColorValue(color) {
+          const colorMap = {
+            blue: "var(--event-blue)",
+            purple: "var(--event-purple)",
+            pink: "var(--event-pink)",
+            green: "var(--event-green)",
+            orange: "var(--event-orange)",
+          }
+          return colorMap[color] || colorMap.blue
+        }
+      
+        function getPriorityText(priority) {
+          const priorityMap = {
+            low: "Low Priority",
+            medium: "Medium Priority",
+            high: "High Priority",
+          }
+          return priorityMap[priority] || "Medium Priority"
+        }
+      
+        function closeConfirmModal() {
+          confirmModal.classList.remove("active")
+          departmentToDelete = null
+        }
+      })
+      
+      
   })
   
   
