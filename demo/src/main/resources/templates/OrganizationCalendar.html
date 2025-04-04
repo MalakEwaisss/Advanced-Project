@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Department Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../static/OrganizationCalendar.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -297,7 +298,27 @@
                 </div>
             </form>
         </div>
+        
     </div>
+    <!-- Add this right after the department modal -->
+<div id="confirm-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Delete</h3>
+            <button class="close-modal" id="close-confirm-modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="modal-content-body">
+            <p id="confirm-message">Are you sure you want to delete this department and all its events?</p>
+            <div class="form-actions">
+                <button type="button" id="cancel-confirm" class="btn-secondary">Cancel</button>
+                <button type="button" id="confirm-delete" class="btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <script src="../static/OrganizationCalendar.js"></script>
 </body>

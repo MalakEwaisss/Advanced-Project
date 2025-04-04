@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Backend API Functions
   async function loadEventsFromBackend() {
       try {
-          const response = await fetch("http://localhost:8081/events/all");
+          const response = await fetch("http://localhost:8085/events/all");
           if (response.ok) {
               events = await response.json();
               localStorage.setItem("events", JSON.stringify(events));
@@ -169,11 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       try {
-          let url = "http://localhost:8081/events/add";
+          let url = "http://localhost:8085/events/add";
           let method = "POST";
 
           if (currentEventId) {
-              url = `http://localhost:8081/events/update/${currentEventId}`;
+              url = `http://localhost:8085/events/update/${currentEventId}`;
               method = "PUT";
               eventData.id = currentEventId;
           }
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function deleteEventFromBackend() {
       try {
-          const response = await fetch(`http://localhost:8081/events/delete/${currentEventId}`, {
+          const response = await fetch(`http://localhost:8085/events/delete/${currentEventId}`, {
               method: "DELETE"
           });
 
