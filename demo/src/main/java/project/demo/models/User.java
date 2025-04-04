@@ -1,48 +1,39 @@
 package project.demo.models;
 
-import java.util.ArrayList;
-import java.util.List;
+public class User {
+    private String email;
+    private String password;
+    private String role;
 
-import javax.management.Notification;
-
-public abstract class User {
-    protected String userID;
-    protected String name;
-    protected String email;
-    protected String password;
-    protected String role;
-    protected List<Notification> notifications;
-
-    public User(String userID, String name, String email, String password, String role) {
-        this.userID = userID;
-        this.name = name;
+    // Constructor
+    public User(String email, String password, String role) {
         this.email = email;
         this.password = password;
         this.role = role;
-        this.notifications = new ArrayList<>();
     }
 
-    // Abstract methods
-    public abstract boolean login(String email, String password);
-    public abstract boolean signup();
-    public abstract void logout();
-
-    // Getters and setters
-    public String getUserID() { return userID; }
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-    public String getRole() { return role; }
-    public List<Notification> getNotifications() { return notifications; }
-
-    public void setName(String name) { this.name = name; }
-    public void setEmail(String email) { this.email = email; }
-    public void setPassword(String password) { this.password = password; }
-
-    public void addNotification(Notification notification) {
-        notifications.add(notification);
+    // Getters and Setters
+    public String getEmail() {
+        return email;
     }
 
-    public void clearNotifications() {
-        notifications.clear();
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
