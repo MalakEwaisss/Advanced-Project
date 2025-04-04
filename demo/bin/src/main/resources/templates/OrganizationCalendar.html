@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Calendar</title>
+    <link rel="stylesheet" href="../static/OrganizationCalendar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>Organization Calendar</h1>
+                <p>Manage schedules across different departments</p>
+            </div>
+            <div class="header-right">
+                <button id="add-department-btn" class="add-department-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Department
+                </button>
+                <button id="new-event-btn" class="new-event-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    New Event
+                </button>
+                <button id="add-task-btn" class="add-task-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                    Add Task
+                </button>
+            </div>
+        </header>
+
+        <div class="department-selector">
+            <div class="department-tabs" id="department-tabs">
+                <!-- Department tabs will be added here by JavaScript -->
+            </div>
+            <div class="department-sort">
+                <button id="sort-departments-btn" class="sort-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l4-4 4 4m-4-4v14"></path><path d="M21 15l-4 4-4-4m4 4V5"></path></svg>
+                    Sort
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="main-calendar">
+                <div class="calendar-header">
+                    <h2 id="current-month-year">March 2025</h2>
+                    <div class="calendar-controls">
+                        <button id="today-btn" class="control-btn">Today</button>
+                        <button id="prev-month-btn" class="control-btn nav-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button id="next-month-btn" class="control-btn nav-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                        <div class="view-selector">
+                            <button class="view-btn active">Month</button>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calendar-grid">
+                    <div class="weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div id="calendar-days" class="days-grid">
+                        <!-- Days will be filled by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="mini-calendar-container">
+                    <h3>Mini Calendar</h3>
+                    <div class="mini-calendar-header">
+                        <button id="mini-prev-month" class="mini-nav-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <span id="mini-month-year">March 2025</span>
+                        <button id="mini-next-month" class="mini-nav-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                    <div class="mini-weekdays">
+                        <div>Su</div>
+                        <div>Mo</div>
+                        <div>Tu</div>
+                        <div>We</div>
+                        <div>Th</div>
+                        <div>Fr</div>
+                        <div>Sa</div>
+                    </div>
+                    <div id="mini-calendar-days" class="mini-days-grid">
+                        <!-- Mini calendar days will be filled by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="events-section">
+                    <div class="events-tabs">
+                        <button class="tab-btn active" data-tab="upcoming">Upcoming</button>
+                        <button class="tab-btn" data-tab="tasks">Tasks</button>
+                    </div>
+                    <div class="events-content">
+                        <h3>Upcoming Events</h3>
+                        <p class="events-subtitle">Your schedule for the next few days</p>
+                        <div id="events-list" class="events-list">
+                            <!-- Events will be filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Event</h3>
+                <button class="close-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <form id="event-form">
+                <div class="form-group">
+                    <label for="event-title">Event Title</label>
+                    <input type="text" id="event-title" placeholder="Add title" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-date">Date</label>
+                        <input type="date" id="event-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-time">Time</label>
+                        <input type="time" id="event-time" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-department">Department</label>
+                    <select id="event-department" required>
+                        <!-- Department options will be filled by JavaScript -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-options">
+                        <div class="color-option selected" data-color="blue" style="background-color: var(--event-blue);"></div>
+                        <div class="color-option" data-color="purple" style="background-color: var(--event-purple);"></div>
+                        <div class="color-option" data-color="pink" style="background-color: var(--event-pink);"></div>
+                        <div class="color-option" data-color="green" style="background-color: var(--event-green);"></div>
+                        <div class="color-option" data-color="orange" style="background-color: var(--event-orange);"></div>
+                    </div>
+                    <input type="hidden" id="event-color" value="blue">
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-description">Description</label>
+                    <textarea id="event-description" placeholder="Add description"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-event" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Task</h3>
+                <button class="close-modal" id="close-task-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-title">Task Title</label>
+                    <input type="text" id="task-title" placeholder="Add task title" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-date">Due Date</label>
+                        <input type="date" id="task-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority" required>
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-department">Department</label>
+                    <select id="task-department" required>
+                        <!-- Department options will be filled by JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-description">Description</label>
+                    <textarea id="task-description" placeholder="Add task description"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-task" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div id="event-details-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="detail-event-title">Event Title</h3>
+                <button class="close-modal" id="close-details-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="event-details-content">
+                <div class="event-detail">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span id="detail-event-date">March 30, 2025</span>
+                </div>
+                <div class="event-detail">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span id="detail-event-time">10:00 AM</span>
+                </div>
+                <div class="event-detail">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span id="detail-event-department">Department</span>
+                </div>
+                <div id="detail-event-type-container" class="event-detail">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span id="detail-event-type">Event</span>
+                </div>
+                <div id="detail-task-priority-container" class="event-detail" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5v14M7 10l-2 2 2 2M17 14l2-2-2-2"></path></svg>
+                    <span id="detail-task-priority">Medium Priority</span>
+                </div>
+                <div class="event-detail-description">
+                    <h4>Description</h4>
+                    <p id="detail-event-description">Event description will appear here.</p>
+                </div>
+                <div class="event-actions">
+                    <button id="edit-event" class="btn-secondary">Edit</button>
+                    <button id="delete-event" class="btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Department Modal -->
+    <div id="department-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Department</h3>
+                <button class="close-modal" id="close-department-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <form id="department-form">
+                <div class="form-group">
+                    <label for="department-name">Department Name</label>
+                    <input type="text" id="department-name" placeholder="Enter department name" required>
+                </div>
+                <div class="form-group">
+                    <label>Department Color</label>
+                    <div class="color-options">
+                        <div class="color-option selected" data-color="blue" style="background-color: var(--event-blue);"></div>
+                        <div class="color-option" data-color="purple" style="background-color: var(--event-purple);"></div>
+                        <div class="color-option" data-color="pink" style="background-color: var(--event-pink);"></div>
+                        <div class="color-option" data-color="green" style="background-color: var(--event-green);"></div>
+                        <div class="color-option" data-color="orange" style="background-color: var(--event-orange);"></div>
+                    </div>
+                    <input type="hidden" id="department-color" value="blue">
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-department" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../static/OrganizationCalendar.js"></script>
+</body>
+</html>
