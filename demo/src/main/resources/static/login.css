@@ -37,3 +37,68 @@ button {
 button:hover {
     background: #3700b3;
 }
+
+/* Button Base Styles */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+  }
+  
+  /* Large Button Size */
+  .btn-lg {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+  }
+  
+  /* CTA Button Style */
+  .cta-btn {
+    background-color: #9333ea;
+    color: white;
+    box-shadow: 0 4px 6px rgba(147, 51, 234, 0.25);
+  }
+  
+  /* Hover State */
+  .cta-btn:hover {
+    background-color: #7e22ce;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(147, 51, 234, 0.3);
+  }
+  
+  /* Active/Pressed State */
+  .cta-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(147, 51, 234, 0.2);
+  }
+  
+  /* Focus State for Accessibility */
+  .cta-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.4);
+  }
+  
+  /* For the specific login button, you might want to add an icon */
+  .cta-btn.login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  /* If you want to add an icon before the text */
+  .cta-btn.login-btn::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4'%3E%3C/path%3E%3Cpolyline points='10 17 15 12 10 7'%3E%3C/polyline%3E%3Cline x1='15' y1='12' x2='3' y2='12'%3E%3C/line%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }

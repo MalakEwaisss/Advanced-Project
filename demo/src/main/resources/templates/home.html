@@ -3,9 +3,731 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>DarkCalendar - Organize Your Life</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Utility Classes */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #9333ea;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #7e22ce;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #d4d4d8;
+            border: 1px solid #3f3f46;
+        }
+
+        .btn-outline:hover {
+            background-color: #27272a;
+            color: white;
+        }
+
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            color: #c084fc;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #d4d4d8;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #18181b;
+            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 180px 0 100px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #18181b, #000);
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #a1a1aa;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .accent {
+            color: #c084fc;
+        }
+
+        /* Features Highlight Section */
+        .features-highlight {
+            background-color: #18181b;
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: #a1a1aa;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-showcase {
+            background-color: #09090b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-highlight {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature-highlight:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-highlight h3 {
+            font-size: 1.8rem;
+            color: #c084fc;
+            margin-bottom: 10px;
+        }
+
+        .feature-highlight p {
+            font-size: 1.1rem;
+            color: #d4d4d8;
+            line-height: 1.7;
+        }
+
+        .feature-highlight ul {
+            list-style-type: none;
+            margin-left: 20px;
+        }
+
+        .feature-highlight li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 15px;
+            color: #a1a1aa;
+        }
+
+        .feature-highlight li:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background-color: rgba(147, 51, 234, 0.4);
+            border-radius: 50%;
+        }
+
+        .feature-highlight .btn {
+            align-self: flex-start;
+            margin-top: 10px;
+        }
+
+        .feature-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #3b0764, #4f46e5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .feature-image-placeholder svg {
+            opacity: 0.7;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: rgba(24, 24, 27, 0.5);
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(147, 51, 234, 0.5);
+            background-color: #18181b;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(147, 51, 234, 0.2);
+            color: #c084fc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: #a1a1aa;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(to right, #7e22ce, #4f46e5);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            color: #e9d5ff;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            background-color: white;
+            color: #7e22ce;
+        }
+
+        .cta-btn:hover {
+            background-color: #f3e8ff;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #09090b;
+            border-top: 1px solid #27272a;
+            padding: 50px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-link {
+            color: #a1a1aa;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .footer-copyright {
+            color: #52525b;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .feature-highlight h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>hello</h2>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container navbar-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </span>
+                DarkCalendar
+            </a>
+            
+            <div class="nav-links">
+                <a href="#" class="nav-link">Features</a>
+                <a href="#" class="nav-link">Pricing</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-outline">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            
+            <div class="mobile-menu" id="mobile-menu">
+                <a href="#" class="nav-link">Features</a>
+                <a href="#" class="nav-link">Pricing</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+                <a href="#" class="btn btn-outline">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-gradient"></div>
+        <div class="container hero-content">
+            <h1>Organize Your Life with <span class="accent">Precision</span></h1>
+            <p>A beautiful calendar application designed to help you manage your time effectively and stay on top of your schedule.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="#" class="btn btn-outline btn-lg">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Highlight Section (Replacing Calendar Section) -->
+    <section class="features-highlight">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose DarkCalendar?</h2>
+                <p>Discover how our powerful features can transform your productivity and time management.</p>
+            </div>
+            
+            <div class="features-showcase">
+                <div class="feature-highlight">
+                    <h3>Seamless Life Integration</h3>
+                    <div class="feature-image-placeholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                    </div>
+                    <p>
+                        DarkCalendar doesn't just track your appointments—it integrates with your entire digital life. Sync with your email, messaging apps, and project management tools to create a unified hub for all your time-sensitive information.
+                    </p>
+                    <ul>
+                        <li>Automatic event creation from emails and messages</li>
+                        <li>Smart detection of dates and times in your communications</li>
+                        <li>Unified view of personal and professional commitments</li>
+                        <li>Intelligent conflict resolution when scheduling overlaps</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Explore Integration</a>
+                </div>
+                
+                <div class="feature-highlight">
+                    <h3>AI-Powered Time Management</h3>
+                    <div class="feature-image-placeholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                        </svg>
+                    </div>
+                    <p>
+                        Our advanced AI algorithms learn your habits and preferences to optimize your schedule. DarkCalendar analyzes your productivity patterns and suggests the best times for focused work, meetings, and breaks.
+                    </p>
+                    <ul>
+                        <li>Personalized scheduling recommendations based on your productivity patterns</li>
+                        <li>Automatic time blocking for deep work sessions</li>
+                        <li>Smart meeting scheduling that respects your focus time</li>
+                        <li>Burnout prevention through balanced scheduling</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Discover AI Features</a>
+                </div>
+                
+                <div class="feature-highlight">
+                    <h3>Collaborative Planning Without Chaos</h3>
+                    <div class="feature-image-placeholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <p>
+                        Team coordination has never been easier. Share calendars, schedule group events, and find meeting times that work for everyone without the endless email chains. DarkCalendar's collaborative features respect privacy while maximizing efficiency.
+                    </p>
+                    <ul>
+                        <li>Intelligent meeting time suggestions based on everyone's availability</li>
+                        <li>Customizable privacy settings for shared calendars</li>
+                        <li>Real-time updates and notifications for team events</li>
+                        <li>Integrated video conferencing with one-click joining</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">See Collaboration Tools</a>
+                </div>
+                
+                <div class="feature-highlight">
+                    <h3>Beautiful Dark Interface That Protects Your Eyes</h3>
+                    <div class="feature-image-placeholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
+                    <p>
+                        Our sleek dark interface isn't just aesthetically pleasing—it's designed to reduce eye strain during long planning sessions. The carefully crafted color palette and contrast ratios make DarkCalendar comfortable to use at any time of day.
+                    </p>
+                    <ul>
+                        <li>Reduced blue light emission for better sleep when planning at night</li>
+                        <li>High contrast text and elements for improved readability</li>
+                        <li>Customizable color themes to match your preference</li>
+                        <li>Automatic light/dark mode switching based on time of day</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Explore Interface</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Features</h2>
+                <p>Discover what makes our calendar application stand out from the rest.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Smart Scheduling</h3>
+                    <p class="feature-description">AI-powered scheduling suggestions based on your preferences and availability.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Cross-Platform Sync</h3>
+                    <p class="feature-description">Seamlessly sync your calendar across all your devices in real-time.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Customizable Views</h3>
+                    <p class="feature-description">Personalize your calendar view to match your workflow and preferences.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Reminder System</h3>
+                    <p class="feature-description">Never miss an important event with our advanced reminder system.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Collaboration Tools</h3>
+                    <p class="feature-description">Share calendars and schedule meetings with team members effortlessly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Dark Mode</h3>
+                    <p class="feature-description">Easy on the eyes with our beautiful dark theme designed for comfort.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container cta-content">
+            <h2>Ready to Transform Your Scheduling?</h2>
+            <p>Join thousands of users who have already improved their productivity with our calendar app.</p>
+            <a href="#" class="btn btn-lg cta-btn">Sign Up Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="logo">
+                <span class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </span>
+                DarkCalendar
+            </div>
+            
+            <div class="footer-links">
+                <a href="#" class="footer-link">Features</a>
+                <a href="#" class="footer-link">Pricing</a>
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+            
+            <div class="footer-copyright">
+                © 2025 DarkCalendar. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Dynamic Navbar -->
+    <script>
+        // Dynamic Navbar
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Change navbar on scroll
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
