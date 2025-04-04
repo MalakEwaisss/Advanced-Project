@@ -1,15 +1,11 @@
 package project.demo.controllers;
 
 import project.demo.models.User;
-import project.demo.repository.UserRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/auth")
@@ -50,27 +46,6 @@ public class AuthController {
         }
         return null;  // Return null if authentication fails
     }
-@Controller
-@RequestMapping("/auth")
-public class AuthController {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @PostMapping("/login")
-    public String login(@RequestParam String email,
-                        @RequestParam String password,
-                        @RequestParam String role,
-                        Model model) {
-        User user = userRepository.findByEmail(email);
-        if (user != null && user.getPassword().equals(password) && user.getRole().equalsIgnoreCase(role)) {
-            return "redirect:/calendar"; // 💥 THIS IS WHAT YOU WANT
-        } else {
-            model.addAttribute("error", "Invalid email, password, or role.");
-            return "login"; // shows login.html again with error
-        }
-    }
-}
 
 
     @Controller
