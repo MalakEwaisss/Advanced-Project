@@ -74,3 +74,20 @@ button:hover {
 .hidden {
     display: none;
 }
+.button-style {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #9333ea;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+  
+  .button-style:hover {
+    background-color: #7e22ce;
+  }
