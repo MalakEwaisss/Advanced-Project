@@ -1,14 +1,22 @@
 package project.demo.controllers;
 
 import project.demo.models.User;
+import project.demo.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import jakarta.persistence.*;
 
+@Entity
 @Controller
+@Table(name = "users")
 public class SignUpController {
+
+    @Autowired
+    private UserRepository userRepository; // Assuming you have a UserRepository for database operations
 
     // Show the Sign-Up Page
     @GetMapping("/signup")
