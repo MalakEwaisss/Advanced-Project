@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        margin: 0;
+      }
+      .container {
+        width: 700px;
+        background-color: #1e293b;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .title {
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+      .todo-app {
+        width: 100%;
+      }
+      .header {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      #taskInput,
+      #taskDate,
+      #taskCategory,
+      #taskPriority {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #334155;
+        color: white;
+      }
+      #addTask {
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.2em;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+      }
+      li {
+        background-color: #334155;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .delete,
+      .edit {
+        background-color: #ef4444;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .edit {
+        background-color: #f59e0b;
+      }
+      .priority-low {
+        color: green;
+      }
+      .priority-medium {
+        color: orange;
+      }
+      .priority-high {
+        color: red;
+      }
+      .completed {
+        text-decoration: line-through;
+      }
+      .category {
+        font-style: italic;
+        color: #38bdf8;
+      }
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-content {
+        background-color: #2e3b4e;
+        padding: 20px;
+        margin: 15% auto;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 500px;
+      }
+      .close {
+        color: #bbb;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        right: 15px;
+        top: 10px;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .modal-content {
+        background-color: #2e3b4e;
+        padding: 20px;
+        margin: 15% auto;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 500px;
+        position: relative;
+      }
+
+      .modal-content h2 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      .modal-content .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .modal-content input[type="text"],
+      .modal-content input[type="date"],
+      .modal-content select {
+        width: 90%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #4b5563;
+        background-color: #334155;
+        color: #e2e8f0;
+      }
+
+      .modal-content button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+      }
+
+      #saveChanges {
+        width: 100%;
+        padding: 12px;
+        margin-top: 15px;
+        background-color: #2563eb;
+        border: none;
+        color: white;
+        font-size: 1.1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      #saveChanges:hover {
+        background-color: #1e40af;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      select {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #4b5563;
+        background-color: #334155;
+        color: #e2e8f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Task Manager</h1>
+      <div class="todo-app">
+        <div class="header">
+          <input type="text" id="taskInput" placeholder="Add a new task..." />
+          <input type="date" id="taskDate" />
+          <input type="text" id="taskCategory" placeholder="Category" />
+          <select id="taskPriority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+          <button id="addTask">Add</button>
+        </div>
+        <div>
+          <label for="priorityFilter">Filter by Priority:</label>
+          <select style="width: 30%" id="priorityFilter">
+            <option value="all">All</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+
+        <ul id="taskList"></ul>
+      </div>
+    </div>
+
+    <!-- Modal for editing task -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Edit Task</h2>
+        <div class="form-group">
+          <input type="text" id="editTaskInput" placeholder="Task Name" />
+          <input type="date" id="editTaskDate" />
+          <input type="text" id="editTaskCategory" placeholder="Category" />
+          <select id="editTaskPriority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <button id="saveChanges">Save Changes</button>
+      </div>
+    </div>
+
+    <script>
+      let currentTaskElement = null;
+
+      document.getElementById("addTask").addEventListener("click", function () {
+        const taskInput = document.getElementById("taskInput");
+        const taskDate = document.getElementById("taskDate");
+        const taskCategory = document.getElementById("taskCategory");
+        const taskPriority = document.getElementById("taskPriority");
+        const taskText = taskInput.value.trim();
+        const taskDueDate = taskDate.value;
+        const category = taskCategory.value.trim();
+        const priority = taskPriority.value;
+
+        if (taskText === "" || taskDueDate === "") return;
+
+        const taskList = document.getElementById("taskList");
+        const li = document.createElement("li");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.addEventListener("change", function () {
+          li.classList.toggle("completed", checkbox.checked);
+        });
+
+        // Task content
+        const taskContent = document.createElement("span");
+        taskContent.textContent = `${taskText} (Due: ${taskDueDate})`;
+
+        // Priority
+        const prioritySpan = document.createElement("span");
+        prioritySpan.textContent = ` [${
+          priority.charAt(0).toUpperCase() + priority.slice(1)
+        }]`;
+        prioritySpan.classList.add("priority", `priority-${priority}`); // Add a class for styling
+
+        // Category
+        const categorySpan = document.createElement("span");
+        categorySpan.textContent = category ? ` [${category}]` : "";
+        categorySpan.classList.add("category");
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.classList.add("edit");
+        editBtn.addEventListener("click", function () {
+          currentTaskElement = li;
+          document.getElementById("editTaskInput").value = taskText;
+          document.getElementById("editTaskDate").value = taskDueDate;
+          document.getElementById("editTaskCategory").value = category;
+          document.getElementById("editTaskPriority").value = priority;
+          document.getElementById("editModal").style.display = "block";
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "X";
+        deleteBtn.classList.add("delete");
+        deleteBtn.addEventListener("click", function () {
+          li.remove();
+        });
+
+        li.appendChild(checkbox);
+        li.appendChild(taskContent);
+        li.appendChild(prioritySpan); // ✅ Ensure Priority is outside taskContent
+        li.appendChild(categorySpan); // ✅ Ensure Category is outside taskContent
+        li.appendChild(editBtn);
+        li.appendChild(deleteBtn);
+        taskList.appendChild(li);
+
+        taskInput.value = "";
+        taskDate.value = "";
+        taskCategory.value = "";
+        taskPriority.value = "low";
+      });
+
+      // Close the modal when the user clicks on <span> (x)
+      document
+        .getElementById("closeModal")
+        .addEventListener("click", function () {
+          document.getElementById("editModal").style.display = "none";
+        });
+
+      document
+        .getElementById("saveChanges")
+        .addEventListener("click", function () {
+          const newTaskText = document.getElementById("editTaskInput").value;
+          const newTaskDate = document.getElementById("editTaskDate").value;
+          const newTaskCategory =
+            document.getElementById("editTaskCategory").value;
+          const newTaskPriority =
+            document.getElementById("editTaskPriority").value;
+
+          if (!newTaskText || !newTaskDate) return;
+
+          currentTaskElement.querySelector(
+            "span"
+          ).textContent = `${newTaskText} (Due: ${newTaskDate})`;
+
+          const prioritySpan = currentTaskElement.querySelector("span + span");
+          prioritySpan.textContent = ` [${
+            newTaskPriority.charAt(0).toUpperCase() + newTaskPriority.slice(1)
+          }]`;
+          prioritySpan.classList.add("priority", `priority-${newTaskPriority}`); // Add a class for styling
+
+          // Ensure category span exists before updating
+          let categorySpan = currentTaskElement.querySelector(".category");
+          if (!categorySpan) {
+            // If missing, create one and append it
+            categorySpan = document.createElement("span");
+            categorySpan.classList.add("category");
+            const children = currentTaskElement.childNodes;
+            const lastTwo = children[children.length - 2]; // Second-to-last element
+            if (lastTwo) currentTaskElement.insertBefore(categorySpan, lastTwo);
+          }
+
+          categorySpan.textContent = newTaskCategory
+            ? ` [${newTaskCategory}]`
+            : "";
+
+          document.getElementById("editModal").style.display = "none";
+        });
+
+      document
+        .getElementById("priorityFilter")
+        .addEventListener("change", filterTasks);
+
+      function filterTasks() {
+        const priorityFilter = document.getElementById("priorityFilter").value;
+        const tasks = document.querySelectorAll("#taskList li");
+
+        tasks.forEach((task) => {
+          const prioritySpan = task.querySelector(".priority");
+          const taskPriorityText = prioritySpan
+            ? prioritySpan.textContent.replace(/[^\w\s]/g, "").toLowerCase()
+            : ""; // Remove brackets and convert to lowercase
+
+          const matchesPriority =
+            priorityFilter === "all" ||
+            taskPriorityText.includes(priorityFilter.toLowerCase()); // Compare in lowercase
+
+          if (matchesPriority) {
+            task.style.display = "";
+          } else {
+            task.style.display = "none";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

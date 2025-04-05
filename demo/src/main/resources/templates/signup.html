@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/demo/src/main/resources/static/signup.css"> 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        
+        <!-- Role Selection -->
+        <label>Select Role:</label>
+        <select id="roleSelect">
+            <option value="" disabled selected>Select your role</option>
+            <option value="student">Student</option>
+            <option value="organization">Organization</option>
+        </select>
+
+        <!-- Form Fields (Initially Hidden) -->
+        <form id="signupForm">
+            <div id="studentFields" class="hidden">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="text" name="username" id="username" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                </div>
+            </div>
+
+            <div id="organizationFields" class="hidden">
+                <div class="input-group">
+                    <i class="fas fa-building"></i>
+                    <input type="text" name="organizationName" id="username" placeholder="Organization Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" id="organizationEmail" placeholder="Organization Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" id="organizationPassword" placeholder="Password" required>
+                </div>
+            </div>
+
+            <a href="Calender.html" class="button-style">Sign Up</a>
+        </form>
+    </div>
+
+    <script>
+        // Show fields based on role selection
+        document.getElementById("roleSelect").addEventListener("change", function() {
+            let studentFields = document.getElementById("studentFields");
+            let organizationFields = document.getElementById("organizationFields");
+
+            if (this.value === "student") {
+                studentFields.classList.remove("hidden");
+                organizationFields.classList.add("hidden");
+            } else if (this.value === "organization") {
+                organizationFields.classList.remove("hidden");
+                studentFields.classList.add("hidden");
+            }
+        });
+
+        // Handle form submission
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission and page reload
+
+            // Get the username or organization name based on the selected role
+            let username;
+            if (document.getElementById("roleSelect").value === "student") {
+                username = document.getElementById("username").value; // Username for student
+            } else if (document.getElementById("roleSelect").value === "organization") {
+                username = document.getElementById("organizationName").value; // Organization name for organization
+            }
+
+            // Show the welcome popup
+            alert("Welcome, " + username); // Show the "Welcome + username" message in a popup
+        });
+    </script>
+</body>
+</html>
