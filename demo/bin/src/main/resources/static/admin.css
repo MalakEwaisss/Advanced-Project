@@ -1,0 +1,458 @@
+:root {
+    --bg-primary: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --accent-blue: #3498db;
+    --accent-red: #e74c3c;
+    --accent-green: #2ecc71;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    color: var(--bg-primary);
+    min-height: 100vh;
+}
+.admin-container {
+    max-width: 1400px;  
+    margin: 0 auto;
+    padding: 3rem;
+}
+
+.admin-greeting {
+    text-align: center;
+    color: white;
+    margin-bottom: 3rem;
+    font-size: 2.8rem;  
+    font-weight: 600;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem; 
+    flex-wrap: wrap;
+}
+
+.admin-card {
+    width: 380px; 
+    height: 280px;  
+    background: var(--card-bg);
+    border-radius: 12px; 
+    padding: 2.5rem;  
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    text-decoration: none; /* Remove underline */
+    color: inherit; 
+}
+
+.admin-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;  
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.admin-card:hover::before {
+    transform: scaleX(1);
+}
+
+.card-icon {
+    font-size: 3.5rem;  
+    margin-bottom: 2rem;  
+    color: var(--accent-blue);
+    transition: all 0.3s ease;
+}
+
+.admin-card h2 {
+    margin-bottom: 1.5rem;  
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.8rem;  
+    text-decoration: none;
+}
+
+.admin-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+    font-size: 1.1rem;  
+    text-decoration: none;
+}
+
+
+#users-card:hover {
+    transform: translateY(-8px);  
+    box-shadow: var(--shadow-hover);
+}
+
+#users-card:hover .card-icon {
+    color: var(--accent-green);
+}
+
+#calendar-card:hover {
+    transform: translateY(-8px);  
+    box-shadow: var(--shadow-hover);
+}
+
+#calendar-card:hover .card-icon {
+    color: var(--accent-green);
+}
+
+/* User Management Specific Styles */
+.admin-card2 {
+    padding: 2rem;
+    width: auto;
+    height: auto;
+    text-align: left;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.admin-container h1 {
+    text-align: center;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.search-filter {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-grow: 1;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 400px;
+    max-width: 500px;
+    width: 450px;
+}
+
+.filter-box {
+    position: relative;
+    flex: 1;
+    min-width: 100px;
+    max-width: 150px;
+    width: 150px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.fas.fa-search.card-icon{
+    font-size: 1.2rem;
+}
+
+.search-box input, .filter-box select {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 3rem;
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.filter-box select {
+    padding: 0.8rem 1rem;
+}
+
+.search-box input:focus, .filter-box select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Table Styles */
+.users-table {
+    width: 100%;
+    color: rgb(19, 19, 19);
+    overflow-x: auto;
+    margin-top: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 1.2rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+th {
+    background-color: var(--bg-primary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+tbody {
+    background-color: #f9fffd;
+}
+
+/* Role Badges */
+.role-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.role-badge.student {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--accent-green);
+}
+
+.role-badge.organization {
+    background-color: rgba(155, 89, 182, 0.1);
+    color: #9b59b6;
+}
+
+.role-badge.admin {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--accent-blue);
+}
+
+/* Action Buttons */
+.action-btns {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: #e0e3e7;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: var(--accent-red);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: auto;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    margin: 5% auto;
+    width: auto;
+    max-width: 500px;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-btn {
+    position: absolute;
+    align-self:flex-end;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    margin-left: 85%;
+    padding: 0 0.5rem;
+}
+
+.close-btn:hover {
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+/* Form Styles */
+.modal-content {
+    position: relative;
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    width: 90%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 180px) {
+
+    .admin-container {
+        flex-direction: row;
+    }
+
+    .admin-card2 {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .users-table {
+        width: 50%;
+    }
+    
+    .controls {
+        flex-direction: row;
+    }
+    
+    .search-filter {
+        min-width: 5%;
+        max-width: 10%;
+        width: 10%;
+    }
+    
+    .modal-content {
+        margin: 10% auto;
+        width: 90%;
+    }
+    
+    .action-btns {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
