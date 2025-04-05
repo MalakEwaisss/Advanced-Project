@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- <!DOCTYPE html> -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,42 +21,42 @@
         </select>
 
         <!-- Form Fields (Initially Hidden) -->
-        <form id="signupForm">
+        <form id="signupForm" method="post" th:action="@{/auth/signup}" th:object="${user}">
             <div id="studentFields" class="hidden">
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
+                    <input type="text" th:field="*{firstName}" name="firstName" id="firstName" placeholder="First Name" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+                    <input type="text" th:field="*{lastName}" name="lastName" id="lastName" placeholder="Last Name" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-user-circle"></i>
-                    <input type="text" name="username" id="username" placeholder="Username" required>
+                    <input type="text" th:field="*{username}" name="username" id="username" placeholder="Username" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" name="email" id="email" placeholder="Email" required>
+                    <input type="email" th:field="*{email}" name="email" id="email" placeholder="Email" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <input type="password" th:field="*{password}" name="password" id="password" placeholder="Password" required>
                 </div>
             </div>
 
             <div id="organizationFields" class="hidden">
                 <div class="input-group">
                     <i class="fas fa-building"></i>
-                    <input type="text" name="organizationName" id="username" placeholder="Organization Name" required>
+                    <input type="text" th:field="*{organization}" name="organizationName" id="username" placeholder="Organization Name" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" name="email" id="organizationEmail" placeholder="Organization Email" required>
+                    <input type="email" th:field="*{email}" name="email" id="organizationEmail" placeholder="Organization Email" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password" id="organizationPassword" placeholder="Password" required>
+                    <input type="password" th:field="*{password}" name="password" id="organizationPassword" placeholder="Password" required>
                 </div>
             </div>
 

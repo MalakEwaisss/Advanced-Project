@@ -4,6 +4,7 @@ import project.demo.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.demo.repository.UserRepository;
@@ -16,13 +17,18 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository; 
 
+    @GetMapping("/signup")
+    public String showSignUpPage() {
+        return "signup";  // Refers to signup.html in templates
+    }
+
     @PostMapping("/signup")
-    public String signup(User user, Model model) {
+    public String signup(@ModelAttribute User user, Model model) {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             model.addAttribute("error", "Email already exists.");
             return "signup";
         }
-        userRepository.save(user);
+        userRepository.save(user);  // <-- this should work now
         return "redirect:/auth/login";
     }
 
