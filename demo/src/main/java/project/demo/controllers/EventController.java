@@ -3,6 +3,7 @@ package project.demo.controllers;
 import project.demo.models.Event;
 import project.demo.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -44,4 +45,19 @@ public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
     event.setId(id);
     return eventRepository.save(event);
 }
+
+@Controller
+public class CalendarController {
+
+    @GetMapping("/calender")
+    public String showCalendarForStudent() {
+        return "calender"; // This refers to calender.html in src/main/resources/templates
+    }
+
+    @GetMapping("/organization-calendar")
+    public String showCalendarForOrganization() {
+        return "OrganizationCalendar"; // This refers to OrganizationCalendar.html in src/main/resources/templates
+    }
+}
+
 }

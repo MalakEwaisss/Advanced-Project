@@ -18,34 +18,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AuthController {
 
     @Autowired
-    private UserRepository userRepository; 
+    private UserRepository userRepository;
 
+    // Show sign-up page
     @GetMapping("/signup")
-    public String showSignUpPage() {
+    public String showSignUpPage(Model model) {
+        model.addAttribute("user", new User());
         return "signup";  // Refers to signup.html in templates
     }
 
+    // Handle sign-up
     @PostMapping("/signup")
     public String signup(@ModelAttribute User user, Model model) {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             model.addAttribute("error", "Email already exists.");
             return "signup";
         }
-        userRepository.save(user);  // <-- this should work now
-        return "redirect:/auth/login";
-    }
 
+        // Save the new user to the database without hashing the password
+        userRepository.save(user);
+        return "redirect:/auth/login";  // Redirect to login after successful sign-up
+    }
 
     // Handle login request
     @PostMapping("/login")
     public String login(String email, String password, String role, Model model) {
-        // Manually authenticate user (mocking the user data for this example)
+        // Authenticate the user with the provided email, password, and role
         User user = authenticateUser(email, password, role);
 
         if (user != null) {
-            // Successful login, redirect to success page
-            return "redirect:/Calendar";
-
+            // Successful login, redirect to calendar or appropriate page
+            return "redirect:/calendar";
         } else {
             // Failed login, show error message
             model.addAttribute("error", "Invalid email, password, or role.");
@@ -53,12 +56,10 @@ public class AuthController {
         }
     }
 
-
-
     // Login success page
-    @RequestMapping("/loginSuccess")
+    @GetMapping("/loginSuccess")
     public String loginSuccess() {
-        return "loginSuccess";  // Redirect to success page
+        return "loginSuccess";  // Redirect to success page after login
     }
 
     // Mock method for authenticating user (this would typically involve checking a database)
@@ -67,34 +68,6 @@ public class AuthController {
         if (user != null && user.getPassword().equals(password) && user.getRole().equals(role)) {
             return user;  // Return authenticated user
         }
-        // Example data for demonstration purposes
-        if (email.equals("student@example.com") && password.equals("password123") && role.equals("student")) {
-            return new User("student@example.com", "password123", "student");  // Return valid user
-        } else if (email.equals("org@example.com") && password.equals("password123") && role.equals("organization")) {
-            return new User("org@example.com", "password123", "organization");  // Return valid user
-        }
         return null;  // Return null if authentication fails
     }
-
-
-    @Controller
-    public class PageController {
-    
-        @GetMapping("/login")
-        public String loginPage() {
-            return "login"; // this refers to login.html in templates
-        }
-    
-        @GetMapping("/")
-        public String homePage() {
-            return "home"; // this refers to home.html in templates
-        }
-    
-        @GetMapping("/Calendar")
-        public String CalendarPage() {
-            return "Calendar"; // this refers to calendar.html in templates
-        }
-    }
-    
-
 }
