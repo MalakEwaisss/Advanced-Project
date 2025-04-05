@@ -1,0 +1,117 @@
+:root {
+    --bg-primary: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-primary: #2c3e50; 
+    --text-secondary: #7f8c8d;
+    --accent-blue: #3498db;
+    --accent-red: #e74c3c;
+    --bg-primary: #0f172a;
+    --accent-green: #2ecc71;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-primary);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: white; 
+}
+
+/* Container Styles */
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.main-content {
+    background-color: white; 
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    color: var(--text-primary); 
+}
+
+/* Title Styles */
+.profile-title {
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--text-secondary);
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color:  var(--text-primary);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Button Styles */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--text-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #182025;
+    box-shadow: var(--shadow-hover);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .main-content {
+        padding: 25px 20px;
+    }
+    
+    .profile-title {
+        font-size: 24px;
+    }
+    
+    .form-group input {
+        padding: 10px 12px;
+    }
+    
+    .submit-btn {
+        padding: 12px;
+    }
+}

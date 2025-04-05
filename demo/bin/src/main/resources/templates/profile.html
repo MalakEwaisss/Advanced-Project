@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="../static/profile.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <h2 class="profile-title">Profile Details</h2>
+            <form action="#" method="post" id="profileForm" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <input type="text" id="role" name="role" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const role = document.getElementById('role').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !role || !email) {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

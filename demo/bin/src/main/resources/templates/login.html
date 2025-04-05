@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/demo/src/main/resources/static/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="/auth/login" method="post">
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <label>Role:</label>
+            <select name="role" required>
+                <option value="student">Student</option>
+                <option value="organization">Organization</option>
+            </select>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Error message display -->
+        <p style="color: red" th:if="${error}" th:text="${error}"></p>
+    </div>
+</body>
+</html>
