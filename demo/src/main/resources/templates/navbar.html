@@ -1,0 +1,42 @@
+<div th:fragment="navbar">
+    <nav class="navbar">
+      <div class="navbar-header">
+        <img
+          src="/smartcalenderlogo.jpg"
+          alt="Smart Calendar Logo"
+          class="navbar-logo"
+        />
+      </div>
+  
+      <ul>
+        <!-- Role-based links -->
+        <li th:if="${session.userRole == 'student'}">
+          <a href="/calender">Student Calendar</a>
+        </li>
+        <li th:if="${session.userRole == 'organization'}">
+          <a href="/organization-calendar">Organization Calendar</a>
+        </li>
+        <li><a href="/todolist">To-Do List</a></li>
+      </ul>
+  
+      <!-- Welcome message on the right -->
+      <div class="navbar-user">
+        <span th:text="'Welcome, ' + ${session.username}">Welcome, User</span>
+        <img
+          src="/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
+          alt="Profile Picture"
+          class="profile-icon"
+        />
+  
+        <div class="notification-icon">
+          <img
+            src="/notification.png"
+            alt="Notifications"
+            class="notification-bell"
+          />
+          <!-- Dynamic notification count -->
+        </div>
+      </div>
+    </nav>
+  </div>
+  
