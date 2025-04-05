@@ -1,147 +1,60 @@
-// package project.demo.models;
+package project.demo.models;
 
-// import java.util.Calendar;
-// import org.springframework.scheduling.config.Task;
-// import project.demo.IAdminActions;
-// import project.demo.repository.UserRepository;
-// // import project.demo.repository.EventRepository;
-// import project.demo.repository.TaskRepository;
-// import project.demo.repository.CalendarRepository;
-// import java.time.LocalDateTime;
-// import java.util.List;
-// import java.util.Optional;
+import jakarta.persistence.*;
+import java.util.List;
 
-// public class Admin extends User implements IAdminActions {
-//     private final UserRepository userRepository;
-//     // private final EventRepository eventRepository;
-//     private final TaskRepository taskRepository;
-//     private final CalendarRepository calendarRepository;
+@Entity
+@Table(name = "users")
+public class Admin extends User {
+    @Override
+    public String getRole() {
+        return "admin";
+    }
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     public Admin(String userId, String name, String email, String password,
-//                 UserRepository userRepository,
-//                 // EventRepository eventRepository,
-//                 TaskRepository taskRepository,
-//                 CalendarRepository calendarRepository) {
-//         super(userId, name, email, password, "ADMIN");
-//         this.userRepository = userRepository;
-//         // this.eventRepository = eventRepository;
-//         this.taskRepository = taskRepository;
-//         this.calendarRepository = calendarRepository;
-//     }
+    private String name;
+    private String email;
+    private String password;
 
-//     @Override
-//     public User createUser(User user) {
-//         // Validate user data
-//         if (user.getName() == null || user.getName().trim().isEmpty()) {
-//             throw new IllegalArgumentException("User name cannot be empty");
-//         }
-//         if (user.getEmail() == null || !user.getEmail().contains("@")) {
-//             throw new IllegalArgumentException("Invalid email format");
-//         }
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private List<User> manageUsers;
 
-//         // Check if user already exists
-//         if (userRepository.existsById(user.getUserId())) {
-//             throw new IllegalStateException("User with ID " + user.getUserId() + " already exists");
-//         }
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private List<Task> manageTasks;
 
-//         // Set default role if not specified
-//         if (user.getRole() == null || user.getRole().trim().isEmpty()) {
-//             user.setRole("USER");
-//         }
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private List<Event> manageEvents;
 
-//         // Save and return the new user
-//         return userRepository.save(user);
-//     }
+    public Admin() {}
 
-//     @Override
-//     public boolean deleteUser(String userId) {
-//         // Check if user exists
-//         if (!userRepository.existsById(userId)) {
-//             throw new IllegalArgumentException("User with ID " + userId + " not found");
-        
-//         }
+    public Admin(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
-//         // Prevent self-deletion
-//         if (this.getUserId().equals(userId)) {
-//             throw new SecurityException("Admins cannot delete themselves");
-//         }
+    // Getters and setters...
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-//         // Delete the user
-//         userRepository.deleteById(userId);
-//         return true;
-//     }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-//     @Override
-//     public Task editAnyTask(String taskId, Task updatedTask) {
-//         // Verify task exists
-//         Task existingTask = taskRepository.findById(taskId)
-//             .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-//         // Validate due date is in the future
-//         if (updatedTask.getDueDate().isBefore(LocalDateTime.now())) {
-//             throw new IllegalArgumentException("Due date must be in the future");
-//         }
+    public List<User> getManageUsers() { return manageUsers; }
+    public void setManageUsers(List<User> manageUsers) { this.manageUsers = manageUsers; }
 
-//         // Preserve the original assignee
-//         updatedTask.setAssignedUser(existingTask.getAssignedUser());
+    public List<Task> getManageTasks() { return manageTasks; }
+    public void setManageTasks(List<Task> manageTasks) { this.manageTasks = manageTasks; }
 
-//         // Update and return the task
-//         return taskRepository.save(updatedTask);
-//     }
-
-//     @Override
-//     public boolean deleteAnyTask(String taskId) {
-//         // Verify task exists
-//         if (!taskRepository.existsById(taskId)) {
-//             throw new IllegalArgumentException("Task not found");
-//         }
-
-//         // Delete the task
-//         taskRepository.deleteById(taskId);
-//         return true;
-//     }
-
-//     @Override
-//     public Calendar createOrganizationCalendar(Calendar calendar) {
-//         // Validate calendar name
-//         if (calendar.getName() == null || calendar.getName().trim().isEmpty()) {
-//             throw new IllegalArgumentException("Calendar name cannot be empty");
-//         }
-
-//         // Set default values if not provided
-//         if (calendar.getDescription() == null) {
-//             calendar.setDescription("Organization calendar");
-//         }
-
-//         // Set the admin as the owner
-//         calendar.setOwner(this);
-
-//         // Save and return the calendar
-//         return calendarRepository.save(calendar);
-//     }
-
-//     @Override
-//     public org.apache.catalina.User createUser(org.apache.catalina.User user) {
-//         // TODO Auto-generated method stub
-//         throw new UnsupportedOperationException("Unimplemented method 'createUser'");
-//     }
-
-//     @Override
-//     public boolean login(String email, String password) {
-//         // TODO Auto-generated method stub
-//         throw new UnsupportedOperationException("Unimplemented method 'login'");
-//     }
-
-//     @Override
-//     public boolean signup() {
-//         // TODO Auto-generated method stub
-//         throw new UnsupportedOperationException("Unimplemented method 'signup'");
-//     }
-
-//     @Override
-//     public void logout() {
-//         // TODO Auto-generated method stub
-//         throw new UnsupportedOperationException("Unimplemented method 'logout'");
-//     }
-// }
+    public List<Event> getManageEvents() { return manageEvents; }
+    public void setManageEvents(List<Event> manageEvents) { this.manageEvents = manageEvents; }
+}
