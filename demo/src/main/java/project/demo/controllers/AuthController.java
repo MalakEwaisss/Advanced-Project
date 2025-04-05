@@ -3,6 +3,7 @@ package project.demo.controllers;
 import project.demo.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import project.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
+@CrossOrigin(origins = "http://localhost:8085")
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
