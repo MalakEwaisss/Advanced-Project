@@ -18,10 +18,11 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:8085")
 
 public class DepartmentController {
-
-    private final DepartmentRepository departmentRepository;
     
     @Autowired
+    private final DepartmentRepository departmentRepository;
+
+    
     public DepartmentController(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
     }
