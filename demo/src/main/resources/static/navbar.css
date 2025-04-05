@@ -1,0 +1,99 @@
+/* General Reset for Navbar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar Styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c3e50; /* Navbar background color */
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.navbar-header img {
+  height: 50px; /* Logo height */
+  width: auto; /* Maintain aspect ratio */
+}
+
+/* Navbar Links */
+ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+ul li {
+  padding: 5px 10px;
+}
+
+ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect on links */
+ul li a:hover {
+  background-color: #34495e;
+}
+
+/* Role-based links */
+li[th\:if] {
+  display: inline-block; /* Ensure role-based links are displayed */
+}
+
+/* Navbar User Section */
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+  font-size: 16px;
+}
+
+.navbar-user .profile-icon {
+  width: 35px; /* Profile icon size */
+  height: 35px;
+  border-radius: 50%; /* Circular profile icon */
+  object-fit: cover; /* Ensure image fills the circle without distortion */
+  border: 2px solid white; /* Optional: border around the profile image */
+}
+.notification-bell {
+  border: white;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+/* Optional: Responsive Design for Small Screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-header img {
+    height: 40px; /* Adjust logo size for small screens */
+  }
+
+  ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar-user {
+    margin-top: 10px;
+  }
+}
