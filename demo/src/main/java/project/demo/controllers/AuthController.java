@@ -4,12 +4,34 @@ import project.demo.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import project.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
+
+    @Autowired
+    private UserRepository userRepository; 
+
+    @GetMapping("/signup")
+    public String showSignUpPage() {
+        return "signup";  // Refers to signup.html in templates
+    }
+
+    @PostMapping("/signup")
+    public String signup(@ModelAttribute User user, Model model) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            model.addAttribute("error", "Email already exists.");
+            return "signup";
+        }
+        userRepository.save(user);  // <-- this should work now
+        return "redirect:/auth/login";
+    }
+
 
     // Handle login request
     @PostMapping("/login")
@@ -38,6 +60,10 @@ public class AuthController {
 
     // Mock method for authenticating user (this would typically involve checking a database)
     private User authenticateUser(String email, String password, String role) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.getPassword().equals(password) && user.getRole().equals(role)) {
+            return user;  // Return authenticated user
+        }
         // Example data for demonstration purposes
         if (email.equals("student@example.com") && password.equals("password123") && role.equals("student")) {
             return new User("student@example.com", "password123", "student");  // Return valid user
