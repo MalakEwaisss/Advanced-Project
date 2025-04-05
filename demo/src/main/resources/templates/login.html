@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <script>
+        // Function to handle form submission and show the popup
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent form from submitting and refreshing the page
+
+            // Get form values
+            var email = document.querySelector('[name="email"]').value;
+            var password = document.querySelector('[name="password"]').value;
+            var role = document.querySelector('[name="role"]').value;
+
+            // Validate if fields are not empty
+            if (email && password && role) {
+                // Normally, you'd check credentials with a backend request (AJAX or a form submit).
+                // Here we simulate success for demonstration.
+
+                // Display a "Welcome" popup with username (you can use email or username based on your logic)
+                alert("Welcome, " + email); // Popup with email as the "username"
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form onsubmit="handleLogin(event)">
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <label>Role:</label>
+            <select name="role" required>
+                <option value="student">Student</option>
+                <option value="organization">Organization</option>
+            </select>
+            <a href="Calender.html" class="btn btn-lg cta-btn">Login</a>
+
+        </form>
+        
+        <!-- Error message display (will only show when you implement error handling) -->
+        <p style="color: red" th:if="${error}" th:text="${error}"></p>
+    </div>
+</body>
+</html>
