@@ -1,56 +1,37 @@
 package project.demo.controllers;
 
-import project.demo.models.User;
-import project.demo.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import jakarta.persistence.*;
+import org.springframework.ui.Model;
+import project.demo.models.Students;
+import project.demo.models.Organization;
+import project.demo.repository.StudentRepository;
+import project.demo.repository.OrganizationRepository;
 
-@Entity
 @Controller
-@Table(name = "users")
 public class SignUpController {
 
     @Autowired
-    private UserRepository userRepository; // Assuming you have a UserRepository for database operations
+    private StudentRepository studentRepo;
 
-    // Show the Sign-Up Page
-    @GetMapping("/signup")
-    public String showSignUpPage() {
-        return "signup";  // Refers to signup.html in templates
+    @Autowired
+    private OrganizationRepository organizationRepo;
+
+    // Handle student signup
+    @PostMapping("/signup/student")
+    public String registerStudent(@ModelAttribute Students student, Model model) {
+        studentRepo.save(student);  // Save student data
+        model.addAttribute("message", "Student registered successfully!");
+        return "redirect:/calender";  // Redirect to calendar after successful registration
     }
 
-    // Handle Sign-Up Form Submission
-    @PostMapping("/signup")
-    public String handleSignUp(String role, String firstName, String lastName, String username,
-                                String email1, String password1, String organizationName, Model model) {
-        
-        // Validate if the required fields are filled
-        if (role == null || email1 == null || password1 == null || 
-            (role.equals("student") && (firstName == null || lastName == null || username == null)) || 
-            (role.equals("organization") && organizationName == null)) {
-            model.addAttribute("error", "Please fill in all required fields.");
-            return "signup"; // Stay on the sign-up page if there are errors
-        }
-
-        // Create the user based on the role selected
-        User user = null;
-        if (role.equals("student")) {
-            // Create a new student user
-            user = new User(firstName, lastName, username, email1, password1, role);
-        } else if (role.equals("organization")) {
-            // Create a new organization user
-            user = new User(organizationName, email1, password1, role);
-        }
-
-        // Simulate saving the user to the database (mock example)
-        // In a real-world scenario, you would save the user to the database here.
-        
-        // If successful, redirect to login or home page (can be customized)
-        return "redirect:/login"; // Redirect to login page after successful sign up
+    // Handle organization signup
+    @PostMapping("/signup/organization")
+    public String registerOrganization(@ModelAttribute Organization organization, Model model) {
+        organizationRepo.save(organization);  // Save organization data
+        model.addAttribute("message", "Organization registered successfully!");
+        return "redirect:/calender";  // Redirect to calendar after successful registration
     }
 }
