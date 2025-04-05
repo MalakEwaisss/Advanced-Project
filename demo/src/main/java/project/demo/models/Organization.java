@@ -1,9 +1,9 @@
 package project.demo.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Organization {
@@ -16,14 +16,5 @@ public class Organization {
     private String email;
     private String password;
 
-    public Organization() {}
-
-    public Organization(Long id, String organizationName, String email, String password) {
-        this.id = id;
-        this.organizationName = organizationName;
-        this.email = email;
-        this.password = password;
-    }
-
-    // Getters and setters...
+    // Getters and Setters
 }
