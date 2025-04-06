@@ -2,15 +2,21 @@ package project.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import project.demo.models.Students;
 import project.demo.models.Organization;
 import project.demo.repository.StudentRepository;
 import project.demo.repository.OrganizationRepository;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/User")
+
+
 public class SignUpController {
 
     @Autowired
@@ -19,19 +25,35 @@ public class SignUpController {
     @Autowired
     private OrganizationRepository organizationRepo;
 
-    // Handle student signup
-    @PostMapping("/signup/student")
-    public String registerStudent(@ModelAttribute Students student, Model model) {
-        studentRepo.save(student);  // Save student data
-        model.addAttribute("message", "Student registered successfully!");
-        return "redirect:/calender";  // Redirect to calendar after successful registration
+    // Handle GET request for student signup
+    @GetMapping("/signup/student")
+    public ModelAndView showStudentSignupForm() {
+        ModelAndView mav = new ModelAndView("student_signup.html");
+        mav.addObject("student", new Students());  // Add an empty student object for form binding
+        mav.setViewName("student_signup.html");  // Return the student signup HTML view (studentSignup.html)
+        return mav;
     }
 
-    // Handle organization signup
+    // Handle POST request for student signup
+    @PostMapping("/signup/student")
+    public String registerStudent(@ModelAttribute Students student) {
+        studentRepo.save(student);  // Save student data
+        return "redirect:/calendar";  // Redirect to calendar after successful registration
+    }
+
+    // Handle GET request for organization signup
+    @GetMapping("/signup/organization")
+    public ModelAndView showOrganizationSignupForm() {
+        ModelAndView mav = new ModelAndView("organization_signup.html");
+        mav.addObject("organization", new Organization());  // Add an empty organization object for form binding
+        mav.setViewName("organization_signup.html");  // Return the organization signup HTML view (organizationSignup.html)
+        return mav;
+    }
+
+    // Handle POST request for organization signup
     @PostMapping("/signup/organization")
-    public String registerOrganization(@ModelAttribute Organization organization, Model model) {
+    public String registerOrganization(@ModelAttribute Organization organization) {
         organizationRepo.save(organization);  // Save organization data
-        model.addAttribute("message", "Organization registered successfully!");
-        return "redirect:/calender";  // Redirect to calendar after successful registration
+        return "redirect:/calendar";  // Redirect to calendar after successful registration
     }
 }
