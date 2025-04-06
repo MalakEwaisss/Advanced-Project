@@ -7,12 +7,25 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "organization")  // Correct table name as per your database
+@Table(name = "organization")  // Table name in the database
 public class Organization {
+
+    @Id  // Marks this field as the primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Automatically generate ID value
+    private Long id;
 
     private String organizationName;
     private String email;
     private String password;
+
+    // Getter and Setter for id
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     // Getter for organizationName
     public String getOrganizationName() {

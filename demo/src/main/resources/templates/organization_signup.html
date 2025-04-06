@@ -12,20 +12,20 @@
     <div class="signup-container">
         <h2>Organization Sign Up</h2>
 
-        <form id="signupForm" method="POST" action="/signup/organization">
+        <form id="signupForm" method="POST" th:action="@{User/signup/organization}" th:object="${organization}">
             <div class="input-group">
                 <i class="fas fa-building"></i>
-                <input type="text" name="organizationName" placeholder="Organization Name" required>
+                <input type="text" th:field="*{organizationName}" name="organizationName" placeholder="Organization Name" required>
             </div>
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="email" name="email" placeholder="Organization Email" required>
+                <input type="email" th:field="*{email}" name="email" placeholder="Organization Email" required>
             </div>
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" th:field="*{password}" name="password" placeholder="Password" required>
             </div>
-            <a href="/demo/src/main/resources/templates/OrganizationCalendar.html" class="btn btn-lg cta-btn">Signup</a>
+            <a href="/demo/src/main/resources/templates/OrganizationCalendar.html" class="btn btn-lg cta-btn">signup</a>
         </form>
          
 
