@@ -53,6 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
   initCalendar();
 
   function initCalendar() {
+    // Set minimum date on inputs
+    const today = new Date().toISOString().split('T')[0];
+    eventDateInput.setAttribute('min', today);
+    taskDateInput.setAttribute('min', today);
+
     renderCalendar(currentDate);
     renderMiniCalendar(currentDate);
     loadEventsFromBackend();
@@ -113,11 +118,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     eventForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      
+      const dateInput = document.getElementById("event-date");
+      if (isPastDate(dateInput.value, !!currentEventId)) {
+        alert("Please select a date that is today or in the future.");
+        dateInput.focus();
+        return;
+      }
+      
       await saveEventToBackend();
     });
 
     taskForm.addEventListener("submit", (e) => {
       e.preventDefault();
+      
+      const dateInput = document.getElementById("task-date");
+      if (isPastDate(dateInput.value, !!currentEventId)) {
+        alert("Please select a date that is today or in the future.");
+        dateInput.focus();
+        return;
+      }
+      
       saveTaskLocally();
     });
 
@@ -176,6 +197,16 @@ document.addEventListener("DOMContentLoaded", () => {
     cancelTaskBtn.addEventListener("click", () => {
       closeTaskModal();
     });
+  }
+
+  // Helper function to check if date is in the past
+  function isPastDate(dateString, isEditing = false) {
+    if (isEditing) return false; // Allow past dates when editing existing items
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const inputDate = new Date(dateString);
+    return inputDate < today;
   }
 
   // Backend API Functions
