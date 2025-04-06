@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Sign Up</title>
-    <link rel="stylesheet" href="/demo/src/main/resources/static/signup.css"> 
+    <link rel="stylesheet" href="./signup.css"> 
     <!-- Use FontAwesome from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </head>
@@ -12,28 +12,29 @@
     <div class="signup-container">
         <h2>Student Sign Up</h2>
 
-        <form id="signupForm" method="POST" action="/signup/student">
+        <form id="signupForm" method="POST" th:action="@{/User/signup/student}" th:object="${user}">
             <div class="input-group">
                 <i class="fas fa-user"></i>
-                <input type="text" name="firstName" placeholder="First Name" required>
+                <input type="text" th:field="*{fname}" placeholder="FirstName" required>
             </div>
             <div class="input-group">
                 <i class="fas fa-user"></i>
-                <input type="text" name="lastName" placeholder="Last Name" required>
+                <input type="text" th:field="*{lname}" placeholder="LastName" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" th:field="*{email}" placeholder="Email" required>
             </div>
             <div class="input-group">
                 <i class="fas fa-user-circle"></i>
-                <input type="text" name="username" placeholder="Username" required>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" th:field="*{username}" placeholder="Enter Username" required>
             </div>
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" th:field="*{password}" placeholder="Enter Password" required>
             </div>
-            <button type="submit" class="btn btn-lg cta-btn">Signup</button>
+           
+            <a href="/demo/src/main/resources/templates/studentCalendar.html" class="btn btn-lg cta-btn">signup</a>
         </form>
         
 
