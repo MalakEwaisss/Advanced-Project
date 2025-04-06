@@ -8,66 +8,89 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import jakarta.servlet.http.HttpSession;
 import project.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-@CrossOrigin(origins = "http://localhost:8085")
+//@CrossOrigin(origins = "http://localhost:8085")
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/")
 public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
 
-    // Show sign-up page
-    @GetMapping("/signup")
-    public String showSignUpPage(Model model) {
-        model.addAttribute("user", new User());
-        return "signup";  // Refers to signup.html in templates
-    }
 
-    // Handle sign-up
-    @PostMapping("/signup")
-    public String signup(@ModelAttribute User user, Model model) {
+
+    @PostMapping("/student-signup")
+    public String registerStudent(@ModelAttribute User user, Model model) {
+        
         if (userRepository.findByEmail(user.getEmail()) != null) {
             model.addAttribute("error", "Email already exists.");
-            return "signup";
+            return "student_signup";  // Return to signup page with error message
         }
-
-        // Save the new user to the database without hashing the password
+            user.setRole("student");
         userRepository.save(user);
-        return "redirect:/auth/login";  // Redirect to login after successful sign-up
+
+        // Optionally, you can add a message to the model
+        model.addAttribute("message", "Student registered successfully!");
+
+        // Redirect to a different page (e.g., calendar page)
+        return "redirect:/login";  // Redirect after successful form submission
     }
 
-    // Handle login request
-    @PostMapping("/login")
-    public String login(String email, String password, String role, Model model) {
-        // Authenticate the user with the provided email, password, and role
-        User user = authenticateUser(email, password, role);
-
-        if (user != null) {
-            // Successful login, redirect to calendar or appropriate page
-            return "redirect:/calendar";
-        } else {
-            // Failed login, show error message
-            model.addAttribute("error", "Invalid email, password, or role.");
-            return "login";  // Stay on login page with error message
+    
+    @PostMapping("/student-signup")
+    public String registerOrganization(@ModelAttribute User user, Model model) {
+        
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            model.addAttribute("error", "Email already exists.");
+            return "student_signup";  // Return to signup page with error message
         }
+            user.setRole("student");
+        userRepository.save(user);
+
+        // Optionally, you can add a message to the model
+        model.addAttribute("message", "Student registered successfully!");
+
+        // Redirect to a different page (e.g., calendar page)
+        return "redirect:/login";  // Redirect after successful form submission
     }
 
-    // Login success page
-    @GetMapping("/loginSuccess")
-    public String loginSuccess() {
-        return "loginSuccess";  // Redirect to success page after login
-    }
 
-    // Mock method for authenticating user (this would typically involve checking a database)
-    private User authenticateUser(String email, String password, String role) {
-        User user = userRepository.findByEmail(email);
-        if (user != null && user.getPassword().equals(password) && user.getRole().equals(role)) {
-            return user;  // Return authenticated user
+   @PostMapping("/login")
+    public String login(@ModelAttribute User user, Model model, HttpSession session) {
+        User dbUser = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+
+        if (dbUser != null) {
+            session.setAttribute("userId", dbUser.getId());
+            session.setAttribute("role", dbUser.getRole());
+            session.setAttribute("username", dbUser.getUsername());
+
+            System.out.println("Session Attributes: userId = " + session.getAttribute("userId")
+            + ", role = " + session.getAttribute("role") + ", username = " + session.getAttribute("username"));
+
+
+            switch (dbUser.getRole()) {
+                case "admin":
+                    return "redirect:/admin";
+                case "student":
+                    return "redirect:/calender";
+                case "organization":
+                    return "redirect:/organization-calendar";
+                default:
+                    model.addAttribute("error", "Unknown role.");
+                    return "login";
+            }
         }
-        return null;  // Return null if authentication fails
+
+        model.addAttribute("error", "Invalid credentials.");
+        return "login";
     }
+
+   
+
+ 
 }

@@ -19,27 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class SignUpController {
 
-    @Autowired
-    private StudentRepository studentRepo;
 
     @Autowired
     private OrganizationRepository organizationRepo;
 
-    // Handle GET request for student signup
-    @GetMapping("/signup/student")
-    public ModelAndView showStudentSignupForm() {
-        ModelAndView mav = new ModelAndView("student_signup.html");
-        mav.addObject("student", new Students());  // Add an empty student object for form binding
-        mav.setViewName("student_signup.html");  // Return the student signup HTML view (studentSignup.html)
-        return mav;
-    }
 
-    // Handle POST request for student signup
-    @PostMapping("/signup/student")
-    public String registerStudent(@ModelAttribute Students student) {
-        studentRepo.save(student);  // Save student data
-        return "redirect:/calendar";  // Redirect to calendar after successful registration
-    }
+  
 
     // Handle GET request for organization signup
     @GetMapping("/signup/organization")

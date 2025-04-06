@@ -1,69 +1,105 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Sign Up</title>
-    <link rel="stylesheet" href="./signup.css"> 
+    <link rel="stylesheet" href="./signup.css" />
     <!-- Use FontAwesome from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="signup-container">
-        <h2>Student Sign Up</h2>
+      <h2>Student Sign Up</h2>
 
-        <form id="signupForm" method="POST" th:action="@{/User/signup/student}" th:object="${user}">
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" th:field="*{fname}" placeholder="FirstName" required>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" th:field="*{lname}" placeholder="LastName" required>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" th:field="*{email}" placeholder="Email" required>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user-circle"></i>
-                <input type="text" th:field="*{username}" placeholder="Enter Username" required>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" th:field="*{password}" placeholder="Enter Password" required>
-            </div>
-           
-            <a href="/demo/src/main/resources/templates/studentCalendar.html" class="btn btn-lg cta-btn">signup</a>
-        </form>
-        
+      <form
+        id="signupForm"
+        method="POST"
+        th:action="@{/student-signup}"
+        th:object="${user}"
+      >
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            th:field="*{firstName}"
+            placeholder="First Name"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            th:field="*{lastName}"
+            placeholder="Last Name"
+            required
+          />
+        </div>
 
-        <a href="login.html" class="btn btn-lg cta-btn">Already have an account? Login</a>
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input
+            type="email"
+            th:field="*{email}"
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <i class="fas fa-user-circle"></i>
+          <input
+            type="text"
+            th:field="*{username}"
+            placeholder="Username"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            th:field="*{password}"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-lg cta-btn">Sign Up</button>
+      </form>
+      <p style="color: red" th:if="${error}" th:text="${error}"></p>
+
+      <a href="/login" class="btn btn-lg cta-btn"
+        >Already have an account? Login</a
+      >
     </div>
 
     <script>
-        document.getElementById("signupForm").addEventListener("submit", function(e) {
-            // Prevent form submission to validate fields first
-            e.preventDefault();
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          // Prevent form submission to validate fields first
+          e.preventDefault();
 
-            // Get all input fields
-            const form = document.getElementById("signupForm");
-            const inputs = form.querySelectorAll("input");
+          // Get all input fields
+          const form = document.getElementById("signupForm");
+          const inputs = form.querySelectorAll("input");
 
-            // Check if any field is empty
-            let formValid = true;
-            inputs.forEach(function(input) {
-                if (!input.value.trim()) {
-                    formValid = false;
-                    alert(`${input.placeholder} is required`);
-                }
-            });
-
-            // If all fields are filled, submit the form
-            if (formValid) {
-                form.submit();
+          // Check if any field is empty
+          let formValid = true;
+          inputs.forEach(function (input) {
+            if (!input.value.trim()) {
+              formValid = false;
+              alert(`${input.placeholder} is required`);
             }
+          });
+
+          // If all fields are filled, submit the form
+          if (formValid) {
+            form.submit();
+          }
         });
     </script>
-</body>
+  </body>
 </html>

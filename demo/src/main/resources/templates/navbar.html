@@ -11,32 +11,31 @@
 
       <ul>
         <!-- Role-based links -->
-        <li th:if="${session.userRole == 'student'}">
+        <li th:if="${session.role == 'student'}">
           <a href="/calender">Student Calendar</a>
         </li>
-        <li th:if="${session.userRole == 'organization'}">
+        <li th:if="${session.role == 'organization'}">
           <a href="/organization-calendar">Organization Calendar</a>
         </li>
         <li><a href="/todolist">To-Do List</a></li>
       </ul>
 
-      <!-- Welcome message on the right -->
       <div class="navbar-user">
         <!-- Show the welcome message if username exists in the session -->
         <span th:if="${session.username}" th:text="'Welcome, ' + ${session.username}">Welcome, User</span>
-    
+      
         <!-- Show the 'Sign In' link if username doesn't exist in the session -->
         <a th:if="${session.username == null}" href="/login" class="sign-in-button">
           Sign In
-      </a>
-    
+        </a>
+      
         <!-- Profile picture always visible -->
         <img
-            src="/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
-            alt="Profile Picture"
-            class="profile-icon"
+          src="/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
+          alt="Profile Picture"
+          class="profile-icon"
         />
-    </div>
+      </div>
     
 
         <div class="notification-icon">
