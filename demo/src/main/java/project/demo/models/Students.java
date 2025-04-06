@@ -1,11 +1,13 @@
 package project.demo.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "students")  // Correct table name as per your database
 public class Students {
 
     @Id
@@ -18,16 +20,8 @@ public class Students {
     private String email;
     private String password;
 
-    public Students() {}
+    // Getters and Setters
 
-    public Students(Long id, String firstName, String lastName, String username, String email, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
 
     // Getters and setters
 
