@@ -91,3 +91,50 @@ button:hover {
   .button-style:hover {
     background-color: #7e22ce;
   }
+
+ /* Remove default link styles */
+a {
+    text-decoration: none;  /* Removes underline */
+    color: inherit;         /* Inherit the color from the parent */
+}
+
+/* Basic button styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Primary button styles */
+.btn-primary {
+    background-color: #9333ea;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #560f94;
+}
+
+/* Outline button styles */
+.btn-outline {
+    background-color: transparent;
+    color: #d4d4d8;
+    border: 1px solid #3f3f46;
+}
+
+.btn-outline:hover {
+    background-color: #27272a;
+    color: white;
+}
+
+/* Large button styles */
+.btn-lg {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+}
+
