@@ -10,7 +10,7 @@ public class Admin extends User {
     public String getRole() {
         return "admin";
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +30,8 @@ public class Admin extends User {
 
     public Admin() {}
 
-    public Admin(String name, String email, String password) {
+    public Admin(Long id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
