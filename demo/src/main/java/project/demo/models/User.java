@@ -10,6 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
     private String firstName;
     private String lastName;
     private String username;
@@ -17,6 +18,33 @@ public class User {
     private String password;
     private String role;
     private String organizationName;
+
+    public User() {}
+
+    public User(Long id, String firstName, String lastName, String username, String email, String password, String role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(Long id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Long id, String name, String email, String password, String role) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     // Getters and setters
     public Long getId() {
