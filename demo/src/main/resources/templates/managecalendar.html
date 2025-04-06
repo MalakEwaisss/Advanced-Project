@@ -1,163 +1,308 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Calendar</title>
-    <link rel="stylesheet" href="../static/managecalendar.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Admin Calendar</title>
+      <link rel="stylesheet" href="./managecalendar.css" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </head>
+    <body>
+      <div class="container">
         <header>
-            <div class="header-left">
-                <h1>Admin Calendar</h1>
-                <p>View and manage all calendar events</p>
-            </div>
+          <div class="header-left">
+            <h1>Admin Calendar</h1>
+            <p>View and manage all calendar events</p>
+          </div>
         </header>
 
         <div class="main-content">
-            <div class="main-calendar">
-                <div class="calendar-header">
-                    <h2 id="current-month-year">March 2025</h2>
-                    <div class="calendar-controls">
-                        <button id="today-btn" class="control-btn">Today</button>
-                        <button id="prev-month-btn" class="control-btn nav-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <button id="next-month-btn" class="control-btn nav-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="calendar-grid">
-                    <div class="weekdays">
-                        <div>Sun</div>
-                        <div>Mon</div>
-                        <div>Tue</div>
-                        <div>Wed</div>
-                        <div>Thu</div>
-                        <div>Fri</div>
-                        <div>Sat</div>
-                    </div>
-                    <div id="calendar-days" class="days-grid">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar">
-                <div class="mini-calendar-container">
-                    <h3>Mini Calendar</h3>
-                    <div class="mini-calendar-header">
-                        <button id="mini-prev-month" class="mini-nav-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <span id="mini-month-year">March 2025</span>
-                        <button id="mini-next-month" class="mini-nav-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
-                    </div>
-                    <div class="mini-weekdays">
-                        <div>Su</div>
-                        <div>Mo</div>
-                        <div>Tu</div>
-                        <div>We</div>
-                        <div>Th</div>
-                        <div>Fr</div>
-                        <div>Sa</div>
-                    </div>
-                    <div id="mini-calendar-days" class="mini-days-grid">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="event-details-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="detail-event-title">Event Title</h3>
-                <button class="close-modal" id="close-details-modal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <div class="main-calendar">
+            <div class="calendar-header">
+              <h2 id="current-month-year">March 2025</h2>
+              <div class="calendar-controls">
+                <button id="today-btn" class="control-btn">Today</button>
+                <button id="prev-month-btn" class="control-btn nav-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
                 </button>
-            </div>
-            <div class="event-details-content">
-                <div class="event-detail">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    <span id="detail-event-date">March 30, 2025</span>
-                </div>
-                <div class="event-detail">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span id="detail-event-time">10:00 AM</span>
-                </div>
-                <div class="event-detail">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span id="detail-event-user">John Doe</span>
-                </div>
-                <div class="event-detail-description">
-                    <h4>Description</h4>
-                    <p id="detail-event-description">Event description will appear here.</p>
-                </div>
-                <div class="event-actions">
-                    <button id="edit-event" class="btn-secondary">Edit</button>
-                    <button id="delete-event" class="btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div id="event-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Edit Event</h3>
-                <button class="close-modal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button id="next-month-btn" class="control-btn nav-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
                 </button>
+              </div>
             </div>
-            <form id="event-form">
-                <div class="form-group">
-                    <label for="event-title">Event Title</label>
-                    <input type="text" id="event-title" placeholder="Add title" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="event-date">Date</label>
-                        <input type="date" id="event-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="event-time">Time</label>
-                        <input type="time" id="event-time" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Color</label>
-                    <div class="color-options">
-                        <div class="color-option selected" data-color="blue" style="background-color: var(--event-blue);"></div>
-                        <div class="color-option" data-color="purple" style="background-color: var(--event-purple);"></div>
-                        <div class="color-option" data-color="pink" style="background-color: var(--event-pink);"></div>
-                        <div class="color-option" data-color="green" style="background-color: var(--event-green);"></div>
-                        <div class="color-option" data-color="orange" style="background-color: var(--event-orange);"></div>
-                    </div>
-                    <input type="hidden" id="event-color" value="blue">
-                </div>
-                <div class="form-group">
-                    <label for="event-description">Description</label>
-                    <textarea id="event-description" placeholder="Add description"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="cancel-event" class="btn-secondary">Cancel</button>
-                    <button type="submit" class="btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <script src="../static/managecalendar.js"></script>
-</body>
+            <div class="calendar-grid">
+              <div class="weekdays">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+              </div>
+              <div id="calendar-days" class="days-grid"></div>
+            </div>
+          </div>
+
+          <div class="sidebar">
+            <div class="mini-calendar-container">
+              <h3>Mini Calendar</h3>
+              <div class="mini-calendar-header">
+                <button id="mini-prev-month" class="mini-nav-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <span id="mini-month-year">March 2025</span>
+                <button id="mini-next-month" class="mini-nav-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <div class="mini-weekdays">
+                <div>Su</div>
+                <div>Mo</div>
+                <div>Tu</div>
+                <div>We</div>
+                <div>Th</div>
+                <div>Fr</div>
+                <div>Sa</div>
+              </div>
+              <div id="mini-calendar-days" class="mini-days-grid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="event-details-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="detail-event-title">Event Title</h3>
+            <button class="close-modal" id="close-details-modal">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="event-details-content">
+            <div class="event-detail">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span id="detail-event-date">March 30, 2025</span>
+            </div>
+            <div class="event-detail">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span id="detail-event-time">10:00 AM</span>
+            </div>
+            <div class="event-detail">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span id="detail-event-user">John Doe</span>
+            </div>
+            <div class="event-detail-description">
+              <h4>Description</h4>
+              <p id="detail-event-description">
+                Event description will appear here.
+              </p>
+            </div>
+            <div class="event-actions">
+              <button id="edit-event" class="btn-secondary">Edit</button>
+              <button id="delete-event" class="btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="event-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Edit Event</h3>
+            <button class="close-modal">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <form id="event-form">
+            <div class="form-group">
+              <label for="event-title">Event Title</label>
+              <input
+                type="text"
+                id="event-title"
+                placeholder="Add title"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="event-date">Date</label>
+                <input type="date" id="event-date" required />
+              </div>
+              <div class="form-group">
+                <label for="event-time">Time</label>
+                <input type="time" id="event-time" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Color</label>
+              <div class="color-options">
+                <div
+                  class="color-option selected"
+                  data-color="blue"
+                  style="background-color: var(--event-blue)"
+                ></div>
+                <div
+                  class="color-option"
+                  data-color="purple"
+                  style="background-color: var(--event-purple)"
+                ></div>
+                <div
+                  class="color-option"
+                  data-color="pink"
+                  style="background-color: var(--event-pink)"
+                ></div>
+                <div
+                  class="color-option"
+                  data-color="green"
+                  style="background-color: var(--event-green)"
+                ></div>
+                <div
+                  class="color-option"
+                  data-color="orange"
+                  style="background-color: var(--event-orange)"
+                ></div>
+              </div>
+              <input type="hidden" id="event-color" value="blue" />
+            </div>
+            <div class="form-group">
+              <label for="event-description">Description</label>
+              <textarea
+                id="event-description"
+                placeholder="Add description"
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="cancel-event" class="btn-secondary">
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <script src="./managecalendar.js"></script>
+    </body>
+  </html>
 </html>

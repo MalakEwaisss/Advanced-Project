@@ -3,6 +3,7 @@ package project.demo.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import project.demo.models.Organization;
 import project.demo.models.User;
 
 import org.springframework.ui.Model;  // To pass data to the view
@@ -20,10 +21,7 @@ public class PageController {
         return "admin";
     }
 
-    @GetMapping("/calender")
-    public String calendar() {
-        return "calender";
-    }
+    
 
     @GetMapping("/choose-account")
     public String chooseAccount() {
@@ -42,21 +40,22 @@ public class PageController {
     }
 
     @GetMapping("/manage-users")
-    public String manageUsers() {
+    public String manageUsers(Model model) {
+        model.addAttribute("user", new User());
+
         return "manageusers";
     }
 
     
 
     @GetMapping("/organization-signup")
-    public String organizationSignup() {
+    public String organizationSignup(Model model) {
+        model.addAttribute("user", new User());
+
         return "organization_signup";
     }
 
-    @GetMapping("/organization-calendar")
-    public String organizationCalendar() {
-        return "OrganizationCalendar";
-    }
+    
 
     @GetMapping("/profile")
     public String profile() {

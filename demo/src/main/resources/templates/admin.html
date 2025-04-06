@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="../static/admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="admin-container">
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Admin Dashboard</title>
+      <link rel="stylesheet" href="./admin.css" />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
+    </head>
+    <body>
+      <div class="admin-container">
         <h1 class="admin-greeting">Hello Admin!</h1>
-        
+
         <div class="cards-container">
-            <a href="manageusers.html" class="admin-card" id="users-card">
-                <div class="card-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h2>Manage Users</h2>
-                <p>View, add, edit, and delete user accounts</p>
-            </a>
-            
-            <a href="managecalendar.html" class="admin-card" id="calendar-card">
-                <div class="card-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <h2>Manage Calendar</h2>
-                <p>Schedule and organize events and tasks</p>
-            </a>
+          <a href="/manage-users" class="admin-card" id="users-card">
+            <div class="card-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h2>Manage Users</h2>
+            <p>View, add, edit, and delete user accounts</p>
+          </a>
+
+          <a href="/manage-calendar" class="admin-card" id="calendar-card">
+            <div class="card-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h2>Manage Calendar</h2>
+            <p>Schedule and organize events and tasks</p>
+          </a>
         </div>
-    </div>
-</body>
+      </div>
+    </body>
+  </html>
 </html>
