@@ -1,6 +1,8 @@
 package project.demo.models;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,7 +12,7 @@ public class Admin extends User {
     public String getRole() {
         return "admin";
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,19 +20,16 @@ public class Admin extends User {
     private String name;
     private String email;
     private String password;
+    private List<User> manageUsers = new ArrayList<>();
+    private List<Task> manageTasks = new ArrayList<>();
+    private List<Event> manageEvents = new ArrayList<>();
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-    private List<User> manageUsers;
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-    private List<Task> manageTasks;
-
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-    private List<Event> manageEvents;
 
     public Admin() {}
 
-    public Admin(String name, String email, String password) {
+    public Admin(Long id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
