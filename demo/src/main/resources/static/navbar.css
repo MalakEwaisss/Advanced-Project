@@ -77,6 +77,19 @@ li[th\:if] {
   height: 30px;
   cursor: pointer;
 }
+
+.sign-in-button {
+  display: inline-block;
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  padding: 12px 20px; /* Padding around the button */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  font-size: 16px; /* Font size */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+  margin-top: 10px; /* Space from other elements */
+}
 /* Optional: Responsive Design for Small Screens */
 @media (max-width: 768px) {
   .navbar {
