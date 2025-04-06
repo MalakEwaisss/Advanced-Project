@@ -41,24 +41,30 @@ public class AuthController {
         return "redirect:/login";  // Redirect after successful form submission
     }
 
-    
-    @PostMapping("/student-signup")
+    /* @PostMapping("/organization-signup")
     public String registerOrganization(@ModelAttribute User user, Model model) {
-        
+    
+        // Check if the email already exists
         if (userRepository.findByEmail(user.getEmail()) != null) {
             model.addAttribute("error", "Email already exists.");
-            return "student_signup";  // Return to signup page with error message
+            return "organization_signup";  // Return to signup page with error message
         }
-            user.setRole("student");
+        
+        // Set the role as 'organization'
+        user.setRole("organization");
+        
+        // Save the organization as a user in the database
         userRepository.save(user);
-
+    
         // Optionally, you can add a message to the model
-        model.addAttribute("message", "Student registered successfully!");
-
-        // Redirect to a different page (e.g., calendar page)
-        return "redirect:/login";  // Redirect after successful form submission
-    }
-
+        model.addAttribute("message", "Organization registered successfully!");
+    
+        // Redirect to login page
+        return "redirect:/login";
+    } */
+    
+    
+    
 
    @PostMapping("/login")
     public String login(@ModelAttribute User user, Model model, HttpSession session) {
