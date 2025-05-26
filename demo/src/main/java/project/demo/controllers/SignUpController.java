@@ -25,12 +25,12 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class SignUpController {
 
-    @Autowired
-    private studentRepository studentRepository;
 
     @Autowired
     private OrganizationRepository organizationRepo;
 
+
+  
     @GetMapping("/signup")
     public String showSignUpPage() {
         return "signup";  // Refers to signup.html in templates
