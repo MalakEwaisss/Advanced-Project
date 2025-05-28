@@ -1,7 +1,7 @@
 package project.demo.controllers;
-import project.demo.models.Task;
 import project.demo.exception.ResourceNotFoundException;
-import project.demo.models.Department;
+import project.demo.model.Department;
+import project.demo.model.Task;
 import project.demo.repository.DepartmentRepository;
 import project.demo.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;

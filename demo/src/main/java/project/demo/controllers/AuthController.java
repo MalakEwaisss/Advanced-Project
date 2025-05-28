@@ -1,6 +1,5 @@
 package project.demo.controllers;
 
-import project.demo.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
+import project.demo.model.User;
 import project.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 

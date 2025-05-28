@@ -3,8 +3,8 @@ package project.demo.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import project.demo.models.Organization;
-import project.demo.models.User;
+import project.demo.model.Organization;
+import project.demo.model.User;
 
 import org.springframework.ui.Model;  // To pass data to the view
 

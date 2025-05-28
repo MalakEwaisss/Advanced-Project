@@ -1,14 +1,10 @@
-package project.demo.models;
+package project.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "students")  // Correct table name as per your database
-public class Students {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +15,10 @@ public class Students {
     private String username;
     private String email;
     private String password;
-
-    // Getters and Setters
-
+    private String role;
+    private String organizationName;
 
     // Getters and setters
-
     public Long getId() {
         return id;
     }
@@ -71,5 +65,21 @@ public class Students {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 }

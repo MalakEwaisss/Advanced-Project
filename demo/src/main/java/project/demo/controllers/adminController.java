@@ -1,3 +1,4 @@
+package project.demo.controllers;
 // package project.demo.controllers;
 
 // import org.mindrot.jbcrypt.BCrypt;

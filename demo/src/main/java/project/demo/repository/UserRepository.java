@@ -1,7 +1,8 @@
 package project.demo.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import project.demo.models.User;
 import org.springframework.stereotype.Repository;
+
+import project.demo.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
