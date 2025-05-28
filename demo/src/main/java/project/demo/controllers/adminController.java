@@ -83,7 +83,7 @@ public class adminController {
         eventRepository.save(event);
         return "redirect:/admin/adminCalendar";
     }
-
+//test
     @PostMapping("/events/delete/{id}")
     public String deleteEvent(@PathVariable Long id) {
         eventRepository.deleteById(id);
