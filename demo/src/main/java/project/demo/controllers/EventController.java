@@ -1,63 +1,58 @@
-package project.demo.controllers;
-
+package project.demo.controllers; 
 import project.demo.models.Event;
 import project.demo.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/events")
-@CrossOrigin(origins = "*")  
+@RequestMapping("/api/events")
 public class EventController {
 
     @Autowired
     private EventRepository eventRepository;
 
-    // Add an event
-    @PostMapping("/add")
-    public Event addEvent(@RequestBody Event event) {
-        return eventRepository.save(event);
-    }
-
-    // Get all events
-    @GetMapping("/all")
+    @GetMapping
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
     }
 
-    // Get events by date
-    @GetMapping("/date/{date}")
-    public List<Event> getEventsByDate(@PathVariable String date) {
-        return eventRepository.findByDate(LocalDate.parse(date)); // Convert String to LocalDate
+    @GetMapping("/{id}")
+    public Event getEventById(@PathVariable Long id) {
+        return eventRepository.findById(id).orElse(null);
     }
 
-    // Delete an event by ID
-    @DeleteMapping("/delete/{id}")
-    public void deleteEvent(@PathVariable Long id) {
+    @PostMapping
+    public Event saveEvent(@RequestBody Event event) {
+        return eventRepository.save(event);
+    }
+
+    @PutMapping("/{id}")
+    public Event updateEvent(@PathVariable Long id, @RequestBody Event eventDetails) {
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event != null) {
+            event.setTitle(eventDetails.getTitle());
+            event.setDate(eventDetails.getDate());
+            event.setTime(eventDetails.getTime());
+            event.setDepartment(eventDetails.getDepartment());
+            event.setColor(eventDetails.getColor());
+            event.setDescription(eventDetails.getDescription());
+            return eventRepository.save(event);
+        }
+        return null;
+    }
+
+   @DeleteMapping("/{id}")
+public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
+    try {
         eventRepository.deleteById(id);
-    }
-    @PutMapping("/update/{id}")
-public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
-    event.setId(id);
-    return eventRepository.save(event);
-}
-
-@Controller
-public class CalendarController {
-
-    @GetMapping("/calender")
-    public String showCalendarForStudent() {
-        return "calender"; // This refers to calender.html in src/main/resources/templates
-    }
-
-    @GetMapping("/organization-calendar")
-    public String showCalendarForOrganization() {
-        return "OrganizationCalendar"; // This refers to OrganizationCalendar.html in src/main/resources/templates
+        return ResponseEntity.noContent().build();
+    } catch (EmptyResultDataAccessException e) {
+        return ResponseEntity.notFound().build();
     }
 }
-
 }
