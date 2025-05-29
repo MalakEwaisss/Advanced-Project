@@ -1,9 +1,10 @@
 package project.demo.controllers;
-import project.demo.model.Task;
-import project.demo.model.Department;
 import project.demo.repository.TaskRepository;
 import project.demo.repository.DepartmentRepository;
 import project.demo.exception.ResourceNotFoundException;
+import project.demo.models.Department;
+import project.demo.models.Task;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

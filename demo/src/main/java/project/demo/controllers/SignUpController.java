@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
 import project.demo.repository.StudentRepository;
-import project.demo.model.Organization;
-import project.demo.model.Students;
+import project.demo.models.Organization;
+import project.demo.models.Students;
 import project.demo.repository.OrganizationRepository;
 import org.springframework.web.servlet.ModelAndView;
 

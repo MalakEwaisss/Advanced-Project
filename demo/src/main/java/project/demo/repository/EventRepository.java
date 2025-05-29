@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import project.demo.model.Event;
+import project.demo.models.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
     

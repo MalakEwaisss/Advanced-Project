@@ -1,6 +1,6 @@
 package project.demo.controllers;
 import project.demo.controllers.DepartmentController;
-import project.demo.model.Department;
+import project.demo.models.Department;
 import project.demo.repository.DepartmentRepository;
 import project.demo.repository.EventRepository;
 import project.demo.repository.TaskRepository;
@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

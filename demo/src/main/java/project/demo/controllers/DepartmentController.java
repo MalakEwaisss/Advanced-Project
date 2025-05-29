@@ -1,6 +1,6 @@
 // src/main/java/com/example/calendar/controller/DepartmentController.java
 package project.demo.controllers;
-import project.demo.model.Department;
+import project.demo.models.Department;
 import project.demo.repository.DepartmentRepository;
 import project.demo.repository.EventRepository;
 import project.demo.repository.TaskRepository;

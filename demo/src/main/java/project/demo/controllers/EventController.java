@@ -1,5 +1,5 @@
 package project.demo.controllers; 
-import project.demo.model.Event;
+import project.demo.models.Event;
 import project.demo.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

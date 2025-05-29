@@ -1,14 +1,12 @@
 package project.demo.repository;
-import org.springframework.data.jpa.repository.JpaRepository;
+import project.demo.models.User;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import project.demo.model.User;
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    // Custom method to find a user by email
+public interface UserRepository extends CrudRepository<User, Long> {
     User findByEmail(String email);
-    User findByEmailAndPassword(String email, String password);
 
+    // Add this method for login
+    User findByEmailAndPassword(String email, String password);
 }
